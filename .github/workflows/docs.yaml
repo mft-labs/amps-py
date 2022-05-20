@@ -1,0 +1,39 @@
+name: Create and commit docs to main
+on:
+  push:
+    branches:
+      - main
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the branch
+      - name: checkout
+        uses: actions/checkout@v2
+      - uses: actions/setup-python@v3
+        with:
+          python-version: '3.9' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+          architecture: 'x64'
+      - run: pip install pdoc3
+      - name: generate docs
+        run: sh docs.sh
+
+      - name: setup git config
+        run: |
+          # setup the username and email. I tend to use 'GitHub Actions Bot' with no email by default
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+      - name: Clone supercharge docs repository
+        uses: actions/checkout@v2
+        with:
+          repository: mft-labs/amps-py
+          path: mft-labs/documentation
+          ref: documentation
+
+      - name: commit
+        run: |
+          # Stage the file, commit and push
+          ls ./mft-labs/documentation
+          # git add .
+          # git commit -m "Create Docs from Latest Commit"
+          # git push origin documentation
