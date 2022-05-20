@@ -12,7 +12,7 @@ jobs:
           python-version: '3.9' # Version range or exact version of a Python version to use, using SemVer's version range syntax
           architecture: 'x64'
       - run: pip install pdoc3
-      - name: save current date
+      - name: generate docs
         run: sh docs.sh
 
       - name: setup git config
@@ -24,6 +24,7 @@ jobs:
       - name: commit
         run: |
           # Stage the file, commit and push
+          git checkout documentation
           git add .
           git commit -m "Create Docs from Latest Commit"
           git push origin documentation
