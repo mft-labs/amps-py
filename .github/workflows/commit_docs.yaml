@@ -26,4 +26,4 @@ jobs:
           # Stage the file, commit and push
           git add .
           git commit -m "Create Docs from Latest Commit"
-          git push origin main
+          git push origin documentation
