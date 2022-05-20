@@ -1,6 +1,5 @@
 #!/bin/sh
-rm -rf ./docs/*
-cp black.png ./docs/black.png
+rm -rf ./docs/*.html
 sed -i.bak '1,2d' ./src/amps/__init__.py
 pdoc3 --html ./src/amps --output-dir ./docs --force --template-dir ./templates
 mv ./docs/amps/* ./docs
