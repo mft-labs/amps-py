@@ -24,7 +24,9 @@ jobs:
       - name: commit
         run: |
           # Stage the file, commit and push
-          git checkout documentation
           git add .
+          git stash
+          git checkout documentation
+          git stash apply
           git commit -m "Create Docs from Latest Commit"
           git push origin documentation
