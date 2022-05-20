@@ -1,4 +1,4 @@
-name: Create and commit docs to main
+name: Create and Commit docs to Documentation Branch
 on:
   push:
     branches:
@@ -7,10 +7,9 @@ jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
-      # Checkout the branch
-      - name: checkout
+      - name: Checkout main branch
         uses: actions/checkout@v2
-      - name: Clone docs branch
+      - name: Clone documentation branch
         uses: actions/checkout@v2
         with:
           repository: mft-labs/amps-py
@@ -18,14 +17,13 @@ jobs:
           ref: documentation
       - uses: actions/setup-python@v3
         with:
-          python-version: '3.9' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+          python-version: '3.9'
           architecture: 'x64'
       - run: pip install pdoc3
-      - name: generate docs
+      - name: Generate Docs
         run: sh docs.sh
-      - name: commit
+      - name: Commit new docs to documentation branch
         run: |
-          # Stage the file, commit and push
           cd ./mft-labs/documentation
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
