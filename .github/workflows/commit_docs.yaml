@@ -26,7 +26,7 @@ jobs:
           # Stage the file, commit and push
           git add .
           git stash
-          git checkout documentation
+          git checkout -b documentation remote/documentation
           git stash apply
           git commit -m "Create Docs from Latest Commit"
           git push origin documentation
