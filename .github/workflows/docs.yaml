@@ -23,7 +23,6 @@ jobs:
       - run: pip install pdoc3
       - name: generate docs
         run: sh docs.sh
-
       - name: commit
         run: |
           # Stage the file, commit and push
