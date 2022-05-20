@@ -7,7 +7,7 @@ import uuid
 
 
 class Util:
-    """The `Util` class from AMPS is a utility class for providing functions that may be useful during and action and service execution.
+    """The `Util` class from UPDATED AMPS is a utility class for providing functions that may be useful during and action and service execution.
 
 
     """
