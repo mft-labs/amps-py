@@ -28,5 +28,5 @@ jobs:
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
           git add .
-          git commit -m "Create Docs from Latest Commit"
+          git diff --quiet && git diff --staged --quiet || git commit -am "Create Docs from Latest Commit"
           git push origin documentation
