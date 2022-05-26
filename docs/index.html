@@ -50,7 +50,7 @@ class Logger:
     Usage:
     ```
     from amps import Action
-    def my_action(Action):
+    class my_action(Action):
         def action(self):
             self.logger.info(&#34;Action Execution Started&#34;)
             # Perform Action Logic Here
@@ -71,7 +71,7 @@ class Logger:
         Usage:
         ```
         from amps import Action
-        def my_action(Action):
+        class my_action(Action):
             def action(self):
                 self.logger.log(&#34;info&#34;, &#34;Action Execution Started&#34;)
                 # Perform Action Logic Here
@@ -93,7 +93,7 @@ class Logger:
         Usage:
         ```
         from amps import Action
-        def my_action(Action):
+        class my_action(Action):
             def action(self):
                 self.logger.info(&#34;Action Execution Started&#34;)
                 # Perform Action Logic Here
@@ -110,7 +110,7 @@ class Logger:
         Usage:
         ```
         from amps import Action
-        def my_action(Action):
+        class my_action(Action):
             def action(self):
                 # Perform Action Logic Here
                 self.logger.debug(&#34;Received message&#34;)
@@ -127,7 +127,7 @@ class Logger:
         Usage:
         ```
         from amps import Action
-        def my_action(Action):
+        class my_action(Action):
             def action(self):
                 # Perform Action Logic Here
                 self.logger.warning(&#34;Something minor went wrong.&#34;)
@@ -144,7 +144,7 @@ class Logger:
         Usage:
         ```
         from amps import Action
-        def my_action(Action):
+        class my_action(Action):
             def action(self):
                 # Perform Action Logic Here
                 self.logger.error(&#34;Something major went wrong.&#34;)
@@ -166,7 +166,7 @@ class Action:
     Usage:
     ```
     from amps import Action
-    def my_action(Action):
+    class my_action(Action):
         def action(self):
             # Get Message Data (This example assumes inline).
             data = self.msg[&#34;data&#34;]
@@ -207,7 +207,7 @@ class Action:
         Usage:
         ```
         from amps import Action
-        def my_action(Action):
+        class my_action(Action):
             def action(self):
                 # Perform Action Logic Here
                 if success:
@@ -229,7 +229,7 @@ class Action:
         Usage:
         ```
         from amps import Action
-        def my_action(Action):
+        class my_action(Action):
             def action(self):
                 # Perform Action Logic Here
                 if success:
@@ -257,7 +257,7 @@ class Action:
         Usage:
         ```
         from amps import Action
-        def my_action(Action):
+        class my_action(Action):
             def action(self):
                 # Perform Action Logic Here
                 if success:
@@ -285,7 +285,7 @@ class Action:
         Usage:
         ```
         from amps import Action
-        def my_action(Action):
+        class my_action(Action):
             def action(self):
                 # Perform Action Logic Here
                 if success:
@@ -309,7 +309,7 @@ class Action:
         Usage:
         ```
         from amps import Action
-        def my_action(Action):
+        class my_action(Action):
             def action(self):
                 # Perform Action Logic Here
                 if success:
@@ -337,7 +337,7 @@ class Endpoint(Action):
     Usage:
     ```
     from amps import Endpoint
-    def my_endpoint(Endpoint):
+    class my_endpoint(Endpoint):
         def action(self):
             # Perform Endpoint Logic Here
             if success:
@@ -362,7 +362,7 @@ class Endpoint(Action):
         ```
         from amps import Endpoint
         import json
-        def my_endpoint(Endpoint):
+        class my_endpoint(Endpoint):
             def action(self):
                 # Perform Endpoint Logic Here
                 if success:
@@ -385,7 +385,7 @@ class Endpoint(Action):
         Usage:
         ```
         from amps import Endpoint
-        def my_endpoint(Endpoint):
+        class my_endpoint(Endpoint):
             def action(self):
                 # Perform Endpoint Logic Here
                 if success:
@@ -420,7 +420,7 @@ class Service:
     Usage:
     ```
     from amps import Service
-    def my_service(Service):
+    class my_service(Service):
         def initialize(self):
             # Start my subprocess here, potentially passing service reference to subprocess so that it can leverage `send_new`.
             # Perform any other startup logic.
@@ -468,7 +468,7 @@ class Service:
         Usage:
         ```
         from amps import Service
-        def my_service(Service):
+        class my_service(Service):
             def initialize(self):
                 # Start my subprocess here, potentially passing service reference to subprocess so that it can leverage `send_new`.
                 # Perform any other startup logic.
@@ -492,7 +492,7 @@ class Service:
         Usage:
         ```
         from amps import Service
-        def my_service(Service):
+        class my_service(Service):
             def initialize(self):
                 # Start my subprocess here, potentially passing service reference to subprocess so that it can leverage `send_new`.
                 # Perform any other startup logic.
@@ -529,7 +529,7 @@ class Service:
         Usage:
         ```
         from amps import Service
-        def my_service(Service):
+        class my_service(Service):
             def initialize(self):
                 # Start my subprocess here, potentially passing service reference to subprocess so that it can leverage `send_new`.
                 # Perform any other startup logic.
@@ -560,7 +560,7 @@ class Service:
         Usage:
         ```
         from amps import Service
-        def my_service(Service):
+        class my_service(Service):
             def initialize(self):
                 # Start my subprocess here, potentially passing service reference to subprocess so that it can leverage `send_new`.
                 # Perform any other startup logic.
@@ -600,7 +600,7 @@ object as well under the "provider" key. </dd>
 </dl>
 <p>Usage:</p>
 <pre><code>from amps import Action
-def my_action(Action):
+class my_action(Action):
     def action(self):
         # Get Message Data (This example assumes inline).
         data = self.msg[&quot;data&quot;]
@@ -629,7 +629,7 @@ def my_action(Action):
     Usage:
     ```
     from amps import Action
-    def my_action(Action):
+    class my_action(Action):
         def action(self):
             # Get Message Data (This example assumes inline).
             data = self.msg[&#34;data&#34;]
@@ -670,7 +670,7 @@ def my_action(Action):
         Usage:
         ```
         from amps import Action
-        def my_action(Action):
+        class my_action(Action):
             def action(self):
                 # Perform Action Logic Here
                 if success:
@@ -692,7 +692,7 @@ def my_action(Action):
         Usage:
         ```
         from amps import Action
-        def my_action(Action):
+        class my_action(Action):
             def action(self):
                 # Perform Action Logic Here
                 if success:
@@ -720,7 +720,7 @@ def my_action(Action):
         Usage:
         ```
         from amps import Action
-        def my_action(Action):
+        class my_action(Action):
             def action(self):
                 # Perform Action Logic Here
                 if success:
@@ -748,7 +748,7 @@ def my_action(Action):
         Usage:
         ```
         from amps import Action
-        def my_action(Action):
+        class my_action(Action):
             def action(self):
                 # Perform Action Logic Here
                 if success:
@@ -772,7 +772,7 @@ def my_action(Action):
         Usage:
         ```
         from amps import Action
-        def my_action(Action):
+        class my_action(Action):
             def action(self):
                 # Perform Action Logic Here
                 if success:
@@ -806,7 +806,7 @@ def my_action(Action):
 <p>This convenience method allows for the creation of a new message using the inline data specified in <code>data</code> and any additional metadata supplied in <code>meta</code>.</p>
 <p>Usage:</p>
 <pre><code>from amps import Action
-def my_action(Action):
+class my_action(Action):
     def action(self):
         # Perform Action Logic Here
         if success:
@@ -832,7 +832,7 @@ def send_data(status: str, data: str, meta: dict = {}):
     Usage:
     ```
     from amps import Action
-    def my_action(Action):
+    class my_action(Action):
         def action(self):
             # Perform Action Logic Here
             if success:
@@ -858,7 +858,7 @@ def send_data(status: str, data: str, meta: dict = {}):
 <p>This convenience method allows for the quick handling of error using the default <code>failed</code> status along with the reason specified in :param<code>reason</code>.</p>
 <p>Usage:</p>
 <pre><code>from amps import Action
-def my_action(Action):
+class my_action(Action):
     def action(self):
         # Perform Action Logic Here
         if success:
@@ -882,7 +882,7 @@ def send_error(reason: str):
     Usage:
     ```
     from amps import Action
-    def my_action(Action):
+    class my_action(Action):
         def action(self):
             # Perform Action Logic Here
             if success:
@@ -911,7 +911,7 @@ def send_error(reason: str):
 <p>This convenience method allows for the creation of a new message using the file specified in <code>fpath</code> and any additional metadata supplied in <code>meta</code>. File Size (fsize) and File Name (fname) are automatically retrieved from the given file. </p>
 <p>Usage:</p>
 <pre><code>from amps import Action
-def my_action(Action):
+class my_action(Action):
     def action(self):
         # Perform Action Logic Here
         if success:
@@ -937,7 +937,7 @@ def send_file(status: str, fpath: str, meta: dict = {}):
     Usage:
     ```
     from amps import Action
-    def my_action(Action):
+    class my_action(Action):
         def action(self):
             # Perform Action Logic Here
             if success:
@@ -966,7 +966,7 @@ def send_file(status: str, fpath: str, meta: dict = {}):
 </dl>
 <p>Usage:</p>
 <pre><code>from amps import Action
-def my_action(Action):
+class my_action(Action):
     def action(self):
         # Perform Action Logic Here
         if success:
@@ -989,7 +989,7 @@ def send_status(status: str, reason: str = None):
     Usage:
     ```
     from amps import Action
-    def my_action(Action):
+    class my_action(Action):
         def action(self):
             # Perform Action Logic Here
             if success:
@@ -1015,7 +1015,7 @@ def send_status(status: str, reason: str = None):
 <p>Relevant message data is available via the attributes available on the self object. It expects the method to return a python dictionary with at least a "status" key with the status of the action execution. If the action execution is unsuccessful, a "reason" key can also be returned along with an unsuccessful status. If a new message is intended to be created by this action, it is also expected that a "msg" key will be returned with a dictionary object containing either a "data" key with inline data or an "fpath" key containing the file path to the message. Similarly, actions used in Endpoints can return a "response" object with the response status code specified under the "code" key, and the response body provided via either the "data" or "fpath" key. The action method is automatically wrapped in a try-except block when it is called, so is unnecessary to wrap the overall method in a try-except block. If you wish to have more granular visibility over errors that arise in your actions, feel free to use try-except blocks at various steps throughout action execution to allow for logging specific reasons for failure. To simplify action creation and handling, a number of helper methods are exposed by the class as static methods.</p>
 <p>Usage:</p>
 <pre><code>from amps import Action
-def my_action(Action):
+class my_action(Action):
     def action(self):
         # Perform Action Logic Here
         if success:
@@ -1035,7 +1035,7 @@ def my_action(Action):
     Usage:
     ```
     from amps import Action
-    def my_action(Action):
+    class my_action(Action):
         def action(self):
             # Perform Action Logic Here
             if success:
@@ -1075,7 +1075,7 @@ object as well under the "provider" key. </dd>
 </p>
 <p>Usage:</p>
 <pre><code>from amps import Endpoint
-def my_endpoint(Endpoint):
+class my_endpoint(Endpoint):
     def action(self):
         # Perform Endpoint Logic Here
         if success:
@@ -1103,7 +1103,7 @@ def my_endpoint(Endpoint):
     Usage:
     ```
     from amps import Endpoint
-    def my_endpoint(Endpoint):
+    class my_endpoint(Endpoint):
         def action(self):
             # Perform Endpoint Logic Here
             if success:
@@ -1128,7 +1128,7 @@ def my_endpoint(Endpoint):
         ```
         from amps import Endpoint
         import json
-        def my_endpoint(Endpoint):
+        class my_endpoint(Endpoint):
             def action(self):
                 # Perform Endpoint Logic Here
                 if success:
@@ -1151,7 +1151,7 @@ def my_endpoint(Endpoint):
         Usage:
         ```
         from amps import Endpoint
-        def my_endpoint(Endpoint):
+        class my_endpoint(Endpoint):
             def action(self):
                 # Perform Endpoint Logic Here
                 if success:
@@ -1183,7 +1183,7 @@ def my_endpoint(Endpoint):
 <p>Usage:</p>
 <pre><code>from amps import Endpoint
 import json
-def my_endpoint(Endpoint):
+class my_endpoint(Endpoint):
     def action(self):
         # Perform Endpoint Logic Here
         if success:
@@ -1206,7 +1206,7 @@ def my_endpoint(Endpoint):
     ```
     from amps import Endpoint
     import json
-    def my_endpoint(Endpoint):
+    class my_endpoint(Endpoint):
         def action(self):
             # Perform Endpoint Logic Here
             if success:
@@ -1233,7 +1233,7 @@ def my_endpoint(Endpoint):
 <p>This convenience method allows for the convenient sending of a file in the response of a request along with the specified status code. </p>
 <p>Usage:</p>
 <pre><code>from amps import Endpoint
-def my_endpoint(Endpoint):
+class my_endpoint(Endpoint):
     def action(self):
         # Perform Endpoint Logic Here
         if success:
@@ -1257,7 +1257,7 @@ def my_endpoint(Endpoint):
     Usage:
     ```
     from amps import Endpoint
-    def my_endpoint(Endpoint):
+    class my_endpoint(Endpoint):
         def action(self):
             # Perform Endpoint Logic Here
             if success:
@@ -1291,7 +1291,7 @@ def my_endpoint(Endpoint):
 <div class="desc"><p>The <code><a title="amps.Logger" href="#amps.Logger">Logger</a></code> class from AMPS is a utility class for logging events back to AMPS. This class should not be used directly, but rather instances of this class within Actions, Endpoints, and Services should be used.</p>
 <p>Usage:</p>
 <pre><code>from amps import Action
-def my_action(Action):
+class my_action(Action):
     def action(self):
         self.logger.info(&quot;Action Execution Started&quot;)
         # Perform Action Logic Here
@@ -1306,7 +1306,7 @@ def my_action(Action):
     Usage:
     ```
     from amps import Action
-    def my_action(Action):
+    class my_action(Action):
         def action(self):
             self.logger.info(&#34;Action Execution Started&#34;)
             # Perform Action Logic Here
@@ -1327,7 +1327,7 @@ def my_action(Action):
         Usage:
         ```
         from amps import Action
-        def my_action(Action):
+        class my_action(Action):
             def action(self):
                 self.logger.log(&#34;info&#34;, &#34;Action Execution Started&#34;)
                 # Perform Action Logic Here
@@ -1349,7 +1349,7 @@ def my_action(Action):
         Usage:
         ```
         from amps import Action
-        def my_action(Action):
+        class my_action(Action):
             def action(self):
                 self.logger.info(&#34;Action Execution Started&#34;)
                 # Perform Action Logic Here
@@ -1366,7 +1366,7 @@ def my_action(Action):
         Usage:
         ```
         from amps import Action
-        def my_action(Action):
+        class my_action(Action):
             def action(self):
                 # Perform Action Logic Here
                 self.logger.debug(&#34;Received message&#34;)
@@ -1383,7 +1383,7 @@ def my_action(Action):
         Usage:
         ```
         from amps import Action
-        def my_action(Action):
+        class my_action(Action):
             def action(self):
                 # Perform Action Logic Here
                 self.logger.warning(&#34;Something minor went wrong.&#34;)
@@ -1400,7 +1400,7 @@ def my_action(Action):
         Usage:
         ```
         from amps import Action
-        def my_action(Action):
+        class my_action(Action):
             def action(self):
                 # Perform Action Logic Here
                 self.logger.error(&#34;Something major went wrong.&#34;)
@@ -1422,7 +1422,7 @@ def my_action(Action):
 </dl>
 <p>Usage:</p>
 <pre><code>from amps import Action
-def my_action(Action):
+class my_action(Action):
     def action(self):
         # Perform Action Logic Here
         self.logger.debug(&quot;Received message&quot;)
@@ -1440,7 +1440,7 @@ def my_action(Action):
     Usage:
     ```
     from amps import Action
-    def my_action(Action):
+    class my_action(Action):
         def action(self):
             # Perform Action Logic Here
             self.logger.debug(&#34;Received message&#34;)
@@ -1461,7 +1461,7 @@ def my_action(Action):
 </dl>
 <p>Usage:</p>
 <pre><code>from amps import Action
-def my_action(Action):
+class my_action(Action):
     def action(self):
         # Perform Action Logic Here
         self.logger.error(&quot;Something major went wrong.&quot;)
@@ -1479,7 +1479,7 @@ def my_action(Action):
     Usage:
     ```
     from amps import Action
-    def my_action(Action):
+    class my_action(Action):
         def action(self):
             # Perform Action Logic Here
             self.logger.error(&#34;Something major went wrong.&#34;)
@@ -1500,7 +1500,7 @@ def my_action(Action):
 </dl>
 <p>Usage:</p>
 <pre><code>from amps import Action
-def my_action(Action):
+class my_action(Action):
     def action(self):
         self.logger.info(&quot;Action Execution Started&quot;)
         # Perform Action Logic Here
@@ -1518,7 +1518,7 @@ def my_action(Action):
     Usage:
     ```
     from amps import Action
-    def my_action(Action):
+    class my_action(Action):
         def action(self):
             self.logger.info(&#34;Action Execution Started&#34;)
             # Perform Action Logic Here
@@ -1541,7 +1541,7 @@ def my_action(Action):
 </dl>
 <p>Usage:</p>
 <pre><code>from amps import Action
-def my_action(Action):
+class my_action(Action):
     def action(self):
         self.logger.log(&quot;info&quot;, &quot;Action Execution Started&quot;)
         # Perform Action Logic Here
@@ -1560,7 +1560,7 @@ def my_action(Action):
     Usage:
     ```
     from amps import Action
-    def my_action(Action):
+    class my_action(Action):
         def action(self):
             self.logger.log(&#34;info&#34;, &#34;Action Execution Started&#34;)
             # Perform Action Logic Here
@@ -1586,7 +1586,7 @@ def my_action(Action):
 </dl>
 <p>Usage:</p>
 <pre><code>from amps import Action
-def my_action(Action):
+class my_action(Action):
     def action(self):
         # Perform Action Logic Here
         self.logger.warning(&quot;Something minor went wrong.&quot;)
@@ -1604,7 +1604,7 @@ def my_action(Action):
     Usage:
     ```
     from amps import Action
-    def my_action(Action):
+    class my_action(Action):
         def action(self):
             # Perform Action Logic Here
             self.logger.warning(&#34;Something minor went wrong.&#34;)
@@ -1643,7 +1643,7 @@ def my_action(Action):
 Conversely, <code><a title="amps.Service.send_new" href="#amps.Service.send_new">Service.send_new()</a></code> should be used to create new messages originating from an external source, such as a web server or consumer.</p>
 <p>Usage:</p>
 <pre><code>from amps import Service
-def my_service(Service):
+class my_service(Service):
     def initialize(self):
         # Start my subprocess here, potentially passing service reference to subprocess so that it can leverage `send_new`.
         # Perform any other startup logic.
@@ -1682,7 +1682,7 @@ def my_service(Service):
     Usage:
     ```
     from amps import Service
-    def my_service(Service):
+    class my_service(Service):
         def initialize(self):
             # Start my subprocess here, potentially passing service reference to subprocess so that it can leverage `send_new`.
             # Perform any other startup logic.
@@ -1730,7 +1730,7 @@ def my_service(Service):
         Usage:
         ```
         from amps import Service
-        def my_service(Service):
+        class my_service(Service):
             def initialize(self):
                 # Start my subprocess here, potentially passing service reference to subprocess so that it can leverage `send_new`.
                 # Perform any other startup logic.
@@ -1754,7 +1754,7 @@ def my_service(Service):
         Usage:
         ```
         from amps import Service
-        def my_service(Service):
+        class my_service(Service):
             def initialize(self):
                 # Start my subprocess here, potentially passing service reference to subprocess so that it can leverage `send_new`.
                 # Perform any other startup logic.
@@ -1791,7 +1791,7 @@ def my_service(Service):
         Usage:
         ```
         from amps import Service
-        def my_service(Service):
+        class my_service(Service):
             def initialize(self):
                 # Start my subprocess here, potentially passing service reference to subprocess so that it can leverage `send_new`.
                 # Perform any other startup logic.
@@ -1822,7 +1822,7 @@ def my_service(Service):
         Usage:
         ```
         from amps import Service
-        def my_service(Service):
+        class my_service(Service):
             def initialize(self):
                 # Start my subprocess here, potentially passing service reference to subprocess so that it can leverage `send_new`.
                 # Perform any other startup logic.
@@ -1846,7 +1846,7 @@ def my_service(Service):
 </dl>
 <p>Usage:</p>
 <pre><code>from amps import Service
-def my_service(Service):
+class my_service(Service):
     def initialize(self):
         # Start my subprocess here, potentially passing service reference to subprocess so that it can leverage `send_new`.
         # Perform any other startup logic.
@@ -1864,7 +1864,7 @@ def my_service(Service):
     Usage:
     ```
     from amps import Service
-    def my_service(Service):
+    class my_service(Service):
         def initialize(self):
             # Start my subprocess here, potentially passing service reference to subprocess so that it can leverage `send_new`.
             # Perform any other startup logic.
@@ -1880,7 +1880,7 @@ def my_service(Service):
 <div class="desc"><p>Instance method for performing any initialization logic and starting any subprocesses.<br>
 Usage:</p>
 <pre><code>from amps import Service
-def my_service(Service):
+class my_service(Service):
     def initialize(self):
         # Start my subprocess here, potentially passing service reference to subprocess so that it can leverage `send_new`.
         # Perform any other startup logic.
@@ -1894,7 +1894,7 @@ def my_service(Service):
     Usage:
     ```
     from amps import Service
-    def my_service(Service):
+    class my_service(Service):
         def initialize(self):
             # Start my subprocess here, potentially passing service reference to subprocess so that it can leverage `send_new`.
             # Perform any other startup logic.
@@ -1923,7 +1923,7 @@ The method accepts the original message which should be provided as is, as well 
 </dl>
 <p>Usage:</p>
 <pre><code>from amps import Service
-def my_service(Service):
+class my_service(Service):
     def initialize(self):
         # Start my subprocess here, potentially passing service reference to subprocess so that it can leverage `send_new`.
         # Perform any other startup logic.
@@ -1953,7 +1953,7 @@ def my_service(Service):
     Usage:
     ```
     from amps import Service
-    def my_service(Service):
+    class my_service(Service):
         def initialize(self):
             # Start my subprocess here, potentially passing service reference to subprocess so that it can leverage `send_new`.
             # Perform any other startup logic.
@@ -1996,7 +1996,7 @@ def my_service(Service):
 <p>The method accepts a new message with any additional metadata. If a "data" of "fpath" is provided, associated metadata is also generated. A message ID is automatically assigned to the message and returned from the method.</p>
 <p>Usage:</p>
 <pre><code>from amps import Service
-def my_service(Service):
+class my_service(Service):
     def initialize(self):
         # Start my subprocess here, potentially passing service reference to subprocess so that it can leverage `send_new`.
         # Perform any other startup logic.
@@ -2022,7 +2022,7 @@ def my_service(Service):
     Usage:
     ```
     from amps import Service
-    def my_service(Service):
+    class my_service(Service):
         def initialize(self):
             # Start my subprocess here, potentially passing service reference to subprocess so that it can leverage `send_new`.
             # Perform any other startup logic.
