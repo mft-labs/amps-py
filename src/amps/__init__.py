@@ -192,6 +192,31 @@ class Action:
         return {"status": "completed"}
 
     @staticmethod
+    def send_async(status, key, data):
+        """Static method for creating a dictionary with the provided status and an async key with the provided data for asynchronously returning from an API endpoint.
+
+        Args:
+            status (string): The Action status to log.
+            key (string): The key to use for this data when returning the json object.
+            data (string || dict): Either a string containing the response data or a dictionary which will be JSON encoded and return.
+
+        This convenience method allows for returning data asynchronously from a script when used in an API Endpoint-triggered topic workflow.
+
+        Usage:
+        ```
+        from amps import Action
+        class my_action(Action):
+            def action(self):
+                # Perform Action Logic Here
+                if success:
+                    return Action.send_async("completed", "Hello, this is my async response.")
+                else:
+                    return Action.send_status("failed", "Reason for Failure")
+        ```
+        """
+        return {"status": status, "async": {key: data}}
+
+    @staticmethod
     def send_status(status: str, reason: str = None):
         """Static method for creating a dictionary with the provided status and optional reason for returning in the `action` callback.
 
@@ -486,7 +511,7 @@ class Service:
             del msg["data"]
             newmsg["fsize"] = os.path.getsize(newmsg["fpath"])
         call(Atom(b'Elixir.Amps.PyProcess'), Atom(b'send_message'),
-             [json.dumps({**msg, **newmsg}), json.dumps(self.parms)])
+             [json.dumps({**msg, **newmsg}), json.dumps(self.parms), self.env])
         return msgid
 
     def send_new(self, newmsg: dict):
