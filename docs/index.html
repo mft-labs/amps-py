@@ -219,6 +219,31 @@ class Action:
         return {&#34;status&#34;: &#34;completed&#34;}
 
     @staticmethod
+    def send_async(status, key, data):
+        &#34;&#34;&#34;Static method for creating a dictionary with the provided status and an async key with the provided data for asynchronously returning from an API endpoint.
+
+        Args:
+            status (string): The Action status to log.
+            key (string): The key to use for this data when returning the json object.
+            data (string || dict): Either a string containing the response data or a dictionary which will be JSON encoded and return.
+
+        This convenience method allows for returning data asynchronously from a script when used in an API Endpoint-triggered topic workflow.
+
+        Usage:
+        ```
+        from amps import Action
+        class my_action(Action):
+            def action(self):
+                # Perform Action Logic Here
+                if success:
+                    return Action.send_async(&#34;completed&#34;, &#34;Hello, this is my async response.&#34;)
+                else:
+                    return Action.send_status(&#34;failed&#34;, &#34;Reason for Failure&#34;)
+        ```
+        &#34;&#34;&#34;
+        return {&#34;status&#34;: status, &#34;async&#34;: {key: data}}
+
+    @staticmethod
     def send_status(status: str, reason: str = None):
         &#34;&#34;&#34;Static method for creating a dictionary with the provided status and optional reason for returning in the `action` callback.
 
@@ -513,7 +538,7 @@ class Service:
             del msg[&#34;data&#34;]
             newmsg[&#34;fsize&#34;] = os.path.getsize(newmsg[&#34;fpath&#34;])
         call(Atom(b&#39;Elixir.Amps.PyProcess&#39;), Atom(b&#39;send_message&#39;),
-             [json.dumps({**msg, **newmsg}), json.dumps(self.parms)])
+             [json.dumps({**msg, **newmsg}), json.dumps(self.parms), self.env])
         return msgid
 
     def send_new(self, newmsg: dict):
@@ -682,6 +707,31 @@ class my_action(Action):
         return {&#34;status&#34;: &#34;completed&#34;}
 
     @staticmethod
+    def send_async(status, key, data):
+        &#34;&#34;&#34;Static method for creating a dictionary with the provided status and an async key with the provided data for asynchronously returning from an API endpoint.
+
+        Args:
+            status (string): The Action status to log.
+            key (string): The key to use for this data when returning the json object.
+            data (string || dict): Either a string containing the response data or a dictionary which will be JSON encoded and return.
+
+        This convenience method allows for returning data asynchronously from a script when used in an API Endpoint-triggered topic workflow.
+
+        Usage:
+        ```
+        from amps import Action
+        class my_action(Action):
+            def action(self):
+                # Perform Action Logic Here
+                if success:
+                    return Action.send_async(&#34;completed&#34;, &#34;Hello, this is my async response.&#34;)
+                else:
+                    return Action.send_status(&#34;failed&#34;, &#34;Reason for Failure&#34;)
+        ```
+        &#34;&#34;&#34;
+        return {&#34;status&#34;: status, &#34;async&#34;: {key: data}}
+
+    @staticmethod
     def send_status(status: str, reason: str = None):
         &#34;&#34;&#34;Static method for creating a dictionary with the provided status and optional reason for returning in the `action` callback.
 
@@ -789,6 +839,60 @@ class my_action(Action):
 </ul>
 <h3>Static methods</h3>
 <dl>
+<dt id="amps.Action.send_async"><code class="name flex">
+<span>def <span class="ident">send_async</span></span>(<span>status, key, data)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Static method for creating a dictionary with the provided status and an async key with the provided data for asynchronously returning from an API endpoint.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>status</code></strong> :&ensp;<code>string</code></dt>
+<dd>The Action status to log.</dd>
+<dt><strong><code>key</code></strong> :&ensp;<code>string</code></dt>
+<dd>The key to use for this data when returning the json object.</dd>
+</dl>
+<p>data (string || dict): Either a string containing the response data or a dictionary which will be JSON encoded and return.
+This convenience method allows for returning data asynchronously from a script when used in an API Endpoint-triggered topic workflow.</p>
+<p>Usage:</p>
+<pre><code>from amps import Action
+class my_action(Action):
+    def action(self):
+        # Perform Action Logic Here
+        if success:
+            return Action.send_async(&quot;completed&quot;, &quot;Hello, this is my async response.&quot;)
+        else:
+            return Action.send_status(&quot;failed&quot;, &quot;Reason for Failure&quot;)
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def send_async(status, key, data):
+    &#34;&#34;&#34;Static method for creating a dictionary with the provided status and an async key with the provided data for asynchronously returning from an API endpoint.
+
+    Args:
+        status (string): The Action status to log.
+        key (string): The key to use for this data when returning the json object.
+        data (string || dict): Either a string containing the response data or a dictionary which will be JSON encoded and return.
+
+    This convenience method allows for returning data asynchronously from a script when used in an API Endpoint-triggered topic workflow.
+
+    Usage:
+    ```
+    from amps import Action
+    class my_action(Action):
+        def action(self):
+            # Perform Action Logic Here
+            if success:
+                return Action.send_async(&#34;completed&#34;, &#34;Hello, this is my async response.&#34;)
+            else:
+                return Action.send_status(&#34;failed&#34;, &#34;Reason for Failure&#34;)
+    ```
+    &#34;&#34;&#34;
+    return {&#34;status&#34;: status, &#34;async&#34;: {key: data}}</code></pre>
+</details>
+</dd>
 <dt id="amps.Action.send_data"><code class="name flex">
 <span>def <span class="ident">send_data</span></span>(<span>status: str, data: str, meta: dict = {})</span>
 </code></dt>
@@ -1275,6 +1379,7 @@ class my_endpoint(Endpoint):
 <li><code><b><a title="amps.Action" href="#amps.Action">Action</a></b></code>:
 <ul class="hlist">
 <li><code><a title="amps.Action.action" href="#amps.Action.action">action</a></code></li>
+<li><code><a title="amps.Action.send_async" href="#amps.Action.send_async">send_async</a></code></li>
 <li><code><a title="amps.Action.send_data" href="#amps.Action.send_data">send_data</a></code></li>
 <li><code><a title="amps.Action.send_error" href="#amps.Action.send_error">send_error</a></code></li>
 <li><code><a title="amps.Action.send_file" href="#amps.Action.send_file">send_file</a></code></li>
@@ -1775,7 +1880,7 @@ class my_service(Service):
             del msg[&#34;data&#34;]
             newmsg[&#34;fsize&#34;] = os.path.getsize(newmsg[&#34;fpath&#34;])
         call(Atom(b&#39;Elixir.Amps.PyProcess&#39;), Atom(b&#39;send_message&#39;),
-             [json.dumps({**msg, **newmsg}), json.dumps(self.parms)])
+             [json.dumps({**msg, **newmsg}), json.dumps(self.parms), self.env])
         return msgid
 
     def send_new(self, newmsg: dict):
@@ -1974,7 +2079,7 @@ class my_service(Service):
         del msg[&#34;data&#34;]
         newmsg[&#34;fsize&#34;] = os.path.getsize(newmsg[&#34;fpath&#34;])
     call(Atom(b&#39;Elixir.Amps.PyProcess&#39;), Atom(b&#39;send_message&#39;),
-         [json.dumps({**msg, **newmsg}), json.dumps(self.parms)])
+         [json.dumps({**msg, **newmsg}), json.dumps(self.parms), self.env])
     return msgid</code></pre>
 </details>
 </dd>
@@ -2103,8 +2208,9 @@ class my_service(Service):
 <ul>
 <li>
 <h4><code><a title="amps.Action" href="#amps.Action">Action</a></code></h4>
-<ul class="">
+<ul class="two-column">
 <li><code><a title="amps.Action.action" href="#amps.Action.action">action</a></code></li>
+<li><code><a title="amps.Action.send_async" href="#amps.Action.send_async">send_async</a></code></li>
 <li><code><a title="amps.Action.send_data" href="#amps.Action.send_data">send_data</a></code></li>
 <li><code><a title="amps.Action.send_error" href="#amps.Action.send_error">send_error</a></code></li>
 <li><code><a title="amps.Action.send_file" href="#amps.Action.send_file">send_file</a></code></li>
