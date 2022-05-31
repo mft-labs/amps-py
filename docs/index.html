@@ -160,6 +160,7 @@ class Action:
         msg (dict): The msg attribute contains a python of the dictionary and the message with all of its metadata. Message data can be accessed from the msg attribute, either using the &#34;data&#34; key for inline data, or the &#34;fpath&#34; key for a path to the file containing the data. 
         parms (dict): The parms attribute contains all the parameters of the configured action including any extra parameters you may have specified under the &#34;parms&#34; key. 
         sysparms (dict): The sysparms attribute contains all useful system configuration parameters for use in actions. Currently, sysparms only contains the AMPS temporary directory under the &#34;tempdir&#34; key. 
+        extra (dict): The extra attribute contains all extra parameters configured in the action.
         provider (dict): If use_provider is true on the configured action, the provider attribute contains the provider parameters. The provider parameters are available under the parms  object as well under the &#34;provider&#34; key. 
         logger (Logger): The logger attribute exposes a Logger object for logging events back to AMPS. Any messages logged using this object during the action execution will appear in the corresponding session logs. 
 
@@ -185,6 +186,7 @@ class Action:
         self.msg = msgdata[&#34;msg&#34;]
         self.parms = msgdata[&#34;parms&#34;]
         self.sysparms = msgdata[&#34;sysparms&#34;]
+        self.extra = self.parms[&#34;parms&#34;]
         if self.parms[&#34;use_provider&#34;]:
             self.provider = self.parms[&#34;provider&#34;]
         if self.msg.get(&#34;sid&#34;):
@@ -356,6 +358,7 @@ class Endpoint(Action):
         provider (dict): If use_provider is true on the configured action, the provider attribute contains the provider parameters. The provider parameters are available under the parms  object as well under the &#34;provider&#34; key. 
         logger (Logger): The logger attribute exposes a Logger object for logging events back to AMPS. Any messages logged using this object during the action execution will appear in the corresponding session logs. 
         path_params (dict): The path_params attribute contains any parameters that were passed to the endpoint via the URL. It is also available on the `msg` attribute via the &#34;path_params&#34; key.
+        query_params (dict): The query_params attribute contains any parameters that were passed to the endpoint via the query parameters. It is also available on the `msg` attribute via the &#34;query_params&#34; key.
 
     Unlike actions, which are typically performed asynchronous via topic workflows, because Endpoints are called synchronously, if the endpoint action executes successfully, but produces an erroneous state, the action should return a successful status with the appropriate error code and response body under the &#34;response&#34; key.  
 
@@ -375,6 +378,7 @@ class Endpoint(Action):
     def __init__(self, msgdata):
         super().__init__(msgdata)
         self.path_params = self.msg[&#34;path_params&#34;]
+        self.query_params = self.msg[&#34;query_params&#34;]
 
     def send_resp_data(data: str, code: int):
         &#34;&#34;&#34;Static method for creating a dictionary with the provided inline data and status code in the &#34;response&#34; object for returning in the `Action.action` callback.
@@ -617,6 +621,8 @@ class Service:
 <dd>The parms attribute contains all the parameters of the configured action including any extra parameters you may have specified under the "parms" key. </dd>
 <dt><strong><code>sysparms</code></strong> :&ensp;<code>dict</code></dt>
 <dd>The sysparms attribute contains all useful system configuration parameters for use in actions. Currently, sysparms only contains the AMPS temporary directory under the "tempdir" key. </dd>
+<dt><strong><code>extra</code></strong> :&ensp;<code>dict</code></dt>
+<dd>The extra attribute contains all extra parameters configured in the action.</dd>
 <dt><strong><code>provider</code></strong> :&ensp;<code>dict</code></dt>
 <dd>If use_provider is true on the configured action, the provider attribute contains the provider parameters. The provider parameters are available under the parms
 object as well under the "provider" key. </dd>
@@ -648,6 +654,7 @@ class my_action(Action):
         msg (dict): The msg attribute contains a python of the dictionary and the message with all of its metadata. Message data can be accessed from the msg attribute, either using the &#34;data&#34; key for inline data, or the &#34;fpath&#34; key for a path to the file containing the data. 
         parms (dict): The parms attribute contains all the parameters of the configured action including any extra parameters you may have specified under the &#34;parms&#34; key. 
         sysparms (dict): The sysparms attribute contains all useful system configuration parameters for use in actions. Currently, sysparms only contains the AMPS temporary directory under the &#34;tempdir&#34; key. 
+        extra (dict): The extra attribute contains all extra parameters configured in the action.
         provider (dict): If use_provider is true on the configured action, the provider attribute contains the provider parameters. The provider parameters are available under the parms  object as well under the &#34;provider&#34; key. 
         logger (Logger): The logger attribute exposes a Logger object for logging events back to AMPS. Any messages logged using this object during the action execution will appear in the corresponding session logs. 
 
@@ -673,6 +680,7 @@ class my_action(Action):
         self.msg = msgdata[&#34;msg&#34;]
         self.parms = msgdata[&#34;parms&#34;]
         self.sysparms = msgdata[&#34;sysparms&#34;]
+        self.extra = self.parms[&#34;parms&#34;]
         if self.parms[&#34;use_provider&#34;]:
             self.provider = self.parms[&#34;provider&#34;]
         if self.msg.get(&#34;sid&#34;):
@@ -1174,6 +1182,8 @@ object as well under the "provider" key. </dd>
 <dd>The logger attribute exposes a Logger object for logging events back to AMPS. Any messages logged using this object during the action execution will appear in the corresponding session logs. </dd>
 <dt><strong><code>path_params</code></strong> :&ensp;<code>dict</code></dt>
 <dd>The path_params attribute contains any parameters that were passed to the endpoint via the URL. It is also available on the <code>msg</code> attribute via the "path_params" key.</dd>
+<dt><strong><code>query_params</code></strong> :&ensp;<code>dict</code></dt>
+<dd>The query_params attribute contains any parameters that were passed to the endpoint via the query parameters. It is also available on the <code>msg</code> attribute via the "query_params" key.</dd>
 </dl>
 <p>Unlike actions, which are typically performed asynchronous via topic workflows, because Endpoints are called synchronously, if the endpoint action executes successfully, but produces an erroneous state, the action should return a successful status with the appropriate error code and response body under the "response" key.
 </p>
@@ -1201,6 +1211,7 @@ class my_endpoint(Endpoint):
         provider (dict): If use_provider is true on the configured action, the provider attribute contains the provider parameters. The provider parameters are available under the parms  object as well under the &#34;provider&#34; key. 
         logger (Logger): The logger attribute exposes a Logger object for logging events back to AMPS. Any messages logged using this object during the action execution will appear in the corresponding session logs. 
         path_params (dict): The path_params attribute contains any parameters that were passed to the endpoint via the URL. It is also available on the `msg` attribute via the &#34;path_params&#34; key.
+        query_params (dict): The query_params attribute contains any parameters that were passed to the endpoint via the query parameters. It is also available on the `msg` attribute via the &#34;query_params&#34; key.
 
     Unlike actions, which are typically performed asynchronous via topic workflows, because Endpoints are called synchronously, if the endpoint action executes successfully, but produces an erroneous state, the action should return a successful status with the appropriate error code and response body under the &#34;response&#34; key.  
 
@@ -1220,6 +1231,7 @@ class my_endpoint(Endpoint):
     def __init__(self, msgdata):
         super().__init__(msgdata)
         self.path_params = self.msg[&#34;path_params&#34;]
+        self.query_params = self.msg[&#34;query_params&#34;]
 
     def send_resp_data(data: str, code: int):
         &#34;&#34;&#34;Static method for creating a dictionary with the provided inline data and status code in the &#34;response&#34; object for returning in the `Action.action` callback.
