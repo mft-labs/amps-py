@@ -193,6 +193,29 @@ class Action:
         """
         return {"status": "completed"}
 
+    def get_data(self):
+        """Convenience method to read get string data from message.
+
+        Returns either the inline message data stored on the "data" key or the data stored in the message's file via the "fpath" key.
+        Usage:
+        ```
+        from amps import Action
+        class my_action(Action):
+            def action(self):
+                # Perform Action Logic Here
+                data = self.get_data()
+                # Use data here
+                if success:
+                    return Action.send_status("completed")
+                else:
+                    return Action.send_status("failed", "Reason for Failure")
+        ```
+        """
+        if self.msg.get("data"):
+            return self.msg["data"]
+        else:
+            return open(self.msg["fpath"]).read()
+
     @staticmethod
     def send_async(status, key, data):
         """Static method for creating a dictionary with the provided status and an async key with the provided data for asynchronously returning from an API endpoint.
@@ -350,8 +373,8 @@ class Endpoint(Action):
 
     def __init__(self, msgdata):
         super().__init__(msgdata)
-        self.path_params = self.msg["path_params"]
-        self.query_params = self.msg["query_params"]
+        self.path_params = self.msg.get("path_params")
+        self.query_params = self.msg.get("query_params")
 
     def send_resp_data(data: str, code: int):
         """Static method for creating a dictionary with the provided inline data and status code in the "response" object for returning in the `Action.action` callback.
