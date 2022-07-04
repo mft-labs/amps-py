@@ -220,6 +220,29 @@ class Action:
         &#34;&#34;&#34;
         return {&#34;status&#34;: &#34;completed&#34;}
 
+    def get_data(self):
+        &#34;&#34;&#34;Convenience method to read get string data from message.
+
+        Returns either the inline message data stored on the &#34;data&#34; key or the data stored in the message&#39;s file via the &#34;fpath&#34; key.
+        Usage:
+        ```
+        from amps import Action
+        class my_action(Action):
+            def action(self):
+                # Perform Action Logic Here
+                data = self.get_data()
+                # Use data here
+                if success:
+                    return Action.send_status(&#34;completed&#34;)
+                else:
+                    return Action.send_status(&#34;failed&#34;, &#34;Reason for Failure&#34;)
+        ```
+        &#34;&#34;&#34;
+        if self.msg.get(&#34;data&#34;):
+            return self.msg[&#34;data&#34;]
+        else:
+            return open(self.msg[&#34;fpath&#34;]).read()
+
     @staticmethod
     def send_async(status, key, data):
         &#34;&#34;&#34;Static method for creating a dictionary with the provided status and an async key with the provided data for asynchronously returning from an API endpoint.
@@ -377,8 +400,8 @@ class Endpoint(Action):
 
     def __init__(self, msgdata):
         super().__init__(msgdata)
-        self.path_params = self.msg[&#34;path_params&#34;]
-        self.query_params = self.msg[&#34;query_params&#34;]
+        self.path_params = self.msg.get(&#34;path_params&#34;)
+        self.query_params = self.msg.get(&#34;query_params&#34;)
 
     def send_resp_data(data: str, code: int):
         &#34;&#34;&#34;Static method for creating a dictionary with the provided inline data and status code in the &#34;response&#34; object for returning in the `Action.action` callback.
@@ -713,6 +736,29 @@ class my_action(Action):
         ```
         &#34;&#34;&#34;
         return {&#34;status&#34;: &#34;completed&#34;}
+
+    def get_data(self):
+        &#34;&#34;&#34;Convenience method to read get string data from message.
+
+        Returns either the inline message data stored on the &#34;data&#34; key or the data stored in the message&#39;s file via the &#34;fpath&#34; key.
+        Usage:
+        ```
+        from amps import Action
+        class my_action(Action):
+            def action(self):
+                # Perform Action Logic Here
+                data = self.get_data()
+                # Use data here
+                if success:
+                    return Action.send_status(&#34;completed&#34;)
+                else:
+                    return Action.send_status(&#34;failed&#34;, &#34;Reason for Failure&#34;)
+        ```
+        &#34;&#34;&#34;
+        if self.msg.get(&#34;data&#34;):
+            return self.msg[&#34;data&#34;]
+        else:
+            return open(self.msg[&#34;fpath&#34;]).read()
 
     @staticmethod
     def send_async(status, key, data):
@@ -1159,6 +1205,52 @@ class my_action(Action):
     return {&#34;status&#34;: &#34;completed&#34;}</code></pre>
 </details>
 </dd>
+<dt id="amps.Action.get_data"><code class="name flex">
+<span>def <span class="ident">get_data</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Convenience method to read get string data from message.</p>
+<p>Returns either the inline message data stored on the "data" key or the data stored in the message's file via the "fpath" key.
+Usage:</p>
+<pre><code>from amps import Action
+class my_action(Action):
+    def action(self):
+        # Perform Action Logic Here
+        data = self.get_data()
+        # Use data here
+        if success:
+            return Action.send_status(&quot;completed&quot;)
+        else:
+            return Action.send_status(&quot;failed&quot;, &quot;Reason for Failure&quot;)
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_data(self):
+    &#34;&#34;&#34;Convenience method to read get string data from message.
+
+    Returns either the inline message data stored on the &#34;data&#34; key or the data stored in the message&#39;s file via the &#34;fpath&#34; key.
+    Usage:
+    ```
+    from amps import Action
+    class my_action(Action):
+        def action(self):
+            # Perform Action Logic Here
+            data = self.get_data()
+            # Use data here
+            if success:
+                return Action.send_status(&#34;completed&#34;)
+            else:
+                return Action.send_status(&#34;failed&#34;, &#34;Reason for Failure&#34;)
+    ```
+    &#34;&#34;&#34;
+    if self.msg.get(&#34;data&#34;):
+        return self.msg[&#34;data&#34;]
+    else:
+        return open(self.msg[&#34;fpath&#34;]).read()</code></pre>
+</details>
+</dd>
 </dl>
 </dd>
 <dt id="amps.Endpoint"><code class="flex name class">
@@ -1230,8 +1322,8 @@ class my_endpoint(Endpoint):
 
     def __init__(self, msgdata):
         super().__init__(msgdata)
-        self.path_params = self.msg[&#34;path_params&#34;]
-        self.query_params = self.msg[&#34;query_params&#34;]
+        self.path_params = self.msg.get(&#34;path_params&#34;)
+        self.query_params = self.msg.get(&#34;query_params&#34;)
 
     def send_resp_data(data: str, code: int):
         &#34;&#34;&#34;Static method for creating a dictionary with the provided inline data and status code in the &#34;response&#34; object for returning in the `Action.action` callback.
@@ -1391,6 +1483,7 @@ class my_endpoint(Endpoint):
 <li><code><b><a title="amps.Action" href="#amps.Action">Action</a></b></code>:
 <ul class="hlist">
 <li><code><a title="amps.Action.action" href="#amps.Action.action">action</a></code></li>
+<li><code><a title="amps.Action.get_data" href="#amps.Action.get_data">get_data</a></code></li>
 <li><code><a title="amps.Action.send_async" href="#amps.Action.send_async">send_async</a></code></li>
 <li><code><a title="amps.Action.send_data" href="#amps.Action.send_data">send_data</a></code></li>
 <li><code><a title="amps.Action.send_error" href="#amps.Action.send_error">send_error</a></code></li>
@@ -2222,6 +2315,7 @@ class my_service(Service):
 <h4><code><a title="amps.Action" href="#amps.Action">Action</a></code></h4>
 <ul class="two-column">
 <li><code><a title="amps.Action.action" href="#amps.Action.action">action</a></code></li>
+<li><code><a title="amps.Action.get_data" href="#amps.Action.get_data">get_data</a></code></li>
 <li><code><a title="amps.Action.send_async" href="#amps.Action.send_async">send_async</a></code></li>
 <li><code><a title="amps.Action.send_data" href="#amps.Action.send_data">send_data</a></code></li>
 <li><code><a title="amps.Action.send_error" href="#amps.Action.send_error">send_error</a></code></li>
