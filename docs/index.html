@@ -198,7 +198,7 @@ class Action:
         try:
             response = self.action()
         except Exception as e:
-            response = {&#34;status&#34;: &#34;failed&#34;, &#34;reason&#34;: str(e)}
+            response = {&#34;error&#34;: True, &#34;reason&#34;: str(e)}
         return json.dumps(response)
 
     def action(self):
@@ -715,7 +715,7 @@ class my_action(Action):
         try:
             response = self.action()
         except Exception as e:
-            response = {&#34;status&#34;: &#34;failed&#34;, &#34;reason&#34;: str(e)}
+            response = {&#34;error&#34;: True, &#34;reason&#34;: str(e)}
         return json.dumps(response)
 
     def action(self):
