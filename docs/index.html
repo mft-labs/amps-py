@@ -81,7 +81,7 @@ class Logger:
             self.__service__.__log__(Atom(
                 bytes(level, &#34;utf-8&#34;)), message)
         else:
-            call(Atom(b&#39;Elixir.Amps.PyProcess&#39;), Atom(b&#39;log&#39;), [Atom(
+            call(Atom(b&#39;Elixir.Amps.PyHandler&#39;), Atom(b&#39;log&#39;), [Atom(
                 bytes(level, &#34;utf-8&#34;)), message, [(Atom(b&#39;sid&#39;), self.__sid__)]])
 
     def info(self, message: str):
@@ -1678,7 +1678,7 @@ class my_action(Action):
             self.__service__.__log__(Atom(
                 bytes(level, &#34;utf-8&#34;)), message)
         else:
-            call(Atom(b&#39;Elixir.Amps.PyProcess&#39;), Atom(b&#39;log&#39;), [Atom(
+            call(Atom(b&#39;Elixir.Amps.PyHandler&#39;), Atom(b&#39;log&#39;), [Atom(
                 bytes(level, &#34;utf-8&#34;)), message, [(Atom(b&#39;sid&#39;), self.__sid__)]])
 
     def info(self, message: str):
@@ -1911,7 +1911,7 @@ class my_action(Action):
         self.__service__.__log__(Atom(
             bytes(level, &#34;utf-8&#34;)), message)
     else:
-        call(Atom(b&#39;Elixir.Amps.PyProcess&#39;), Atom(b&#39;log&#39;), [Atom(
+        call(Atom(b&#39;Elixir.Amps.PyHandler&#39;), Atom(b&#39;log&#39;), [Atom(
             bytes(level, &#34;utf-8&#34;)), message, [(Atom(b&#39;sid&#39;), self.__sid__)]])</code></pre>
 </details>
 </dd>
