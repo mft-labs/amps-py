@@ -600,12 +600,9 @@ class Service:
             timeout (int): When response is True, this indicates how long to wait for a response from message processing. 
 
         Returns:
-            if response is True:
-                Variable response depending on message processing.
-            else:
-                msgid: Message ID of the newly sent message.
+            response: If response is True, will return result of message processing, otherwise will return message ID of the newly sent message.
 
-        The method accepts a new message with any additional metadata. If a &#34;data&#34; of &#34;fpath&#34; is provided, associated metadata is also generated. A message ID is automatically assigned to the message and returned from the method.
+        The method accepts a new message with any additional metadata. If a &#34;data&#34; of &#34;fpath&#34; is provided, associated metadata is also generated. In order to get a result from the topic-based message processing of the new message, the response parameter can be passed as True.
 
         Usage:
         ```
@@ -637,7 +634,7 @@ class Service:
             user (dict): A dictionary with a username and password key to use for authentication.
 
         Returns:
-            success (boolean): A boolean indicating whether the operation was succesful.
+            success: A boolean indicating whether the operation was succesful.
             response: Either an error message when the operation fails or a dictionary with the following keys:
                 access_token (str): The access token to use to authenticate the user.
                 renewal_token (str): The renewal token when renewing the user&#39;s session. 
@@ -666,7 +663,7 @@ class Service:
             renewal_token (str): A string containing the renewal token received when creating or renewing the session.
 
         Returns:
-            success (boolean): A boolean indicating whether the operation was succesful.
+            success: A boolean indicating whether the operation was succesful.
             response: Either an error message when the operation fails or a dictionary with the following keys:
                 access_token (str): The access token to use to authenticate the user.
                 renewal_token (str): The renewal token when renewing the user&#39;s session. 
@@ -722,7 +719,7 @@ class Service:
             access_token (str): A string containing the current access token for the user&#39;s session
 
         Returns:
-            success (boolean): A boolean indicating whether the operation was succesful.
+            success: A boolean indicating whether the operation was succesful.
 
         Usage:
         ```
@@ -2152,12 +2149,9 @@ class my_service(Service):
             timeout (int): When response is True, this indicates how long to wait for a response from message processing. 
 
         Returns:
-            if response is True:
-                Variable response depending on message processing.
-            else:
-                msgid: Message ID of the newly sent message.
+            response: If response is True, will return result of message processing, otherwise will return message ID of the newly sent message.
 
-        The method accepts a new message with any additional metadata. If a &#34;data&#34; of &#34;fpath&#34; is provided, associated metadata is also generated. A message ID is automatically assigned to the message and returned from the method.
+        The method accepts a new message with any additional metadata. If a &#34;data&#34; of &#34;fpath&#34; is provided, associated metadata is also generated. In order to get a result from the topic-based message processing of the new message, the response parameter can be passed as True.
 
         Usage:
         ```
@@ -2189,7 +2183,7 @@ class my_service(Service):
             user (dict): A dictionary with a username and password key to use for authentication.
 
         Returns:
-            success (boolean): A boolean indicating whether the operation was succesful.
+            success: A boolean indicating whether the operation was succesful.
             response: Either an error message when the operation fails or a dictionary with the following keys:
                 access_token (str): The access token to use to authenticate the user.
                 renewal_token (str): The renewal token when renewing the user&#39;s session. 
@@ -2218,7 +2212,7 @@ class my_service(Service):
             renewal_token (str): A string containing the renewal token received when creating or renewing the session.
 
         Returns:
-            success (boolean): A boolean indicating whether the operation was succesful.
+            success: A boolean indicating whether the operation was succesful.
             response: Either an error message when the operation fails or a dictionary with the following keys:
                 access_token (str): The access token to use to authenticate the user.
                 renewal_token (str): The renewal token when renewing the user&#39;s session. 
@@ -2274,7 +2268,7 @@ class my_service(Service):
             access_token (str): A string containing the current access token for the user&#39;s session
 
         Returns:
-            success (boolean): A boolean indicating whether the operation was succesful.
+            success: A boolean indicating whether the operation was succesful.
 
         Usage:
         ```
@@ -2322,7 +2316,8 @@ class my_service(Service):
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt>success (boolean): A boolean indicating whether the operation was succesful.</dt>
+<dt><code>success</code></dt>
+<dd>A boolean indicating whether the operation was succesful.</dd>
 <dt><code>response</code></dt>
 <dd>Either an error message when the operation fails or a dictionary with the following keys:
 access_token (str): The access token to use to authenticate the user.
@@ -2351,7 +2346,7 @@ class my_service(Service):
         user (dict): A dictionary with a username and password key to use for authentication.
 
     Returns:
-        success (boolean): A boolean indicating whether the operation was succesful.
+        success: A boolean indicating whether the operation was succesful.
         response: Either an error message when the operation fails or a dictionary with the following keys:
             access_token (str): The access token to use to authenticate the user.
             renewal_token (str): The renewal token when renewing the user&#39;s session. 
@@ -2385,8 +2380,11 @@ class my_service(Service):
 <dd>A string containing the current access token for the user's session</dd>
 </dl>
 <h2 id="returns">Returns</h2>
-<p>success (boolean): A boolean indicating whether the operation was succesful.
-Usage:</p>
+<dl>
+<dt><code>success</code></dt>
+<dd>A boolean indicating whether the operation was succesful.</dd>
+</dl>
+<p>Usage:</p>
 <pre><code>from amps import Service
 class my_service(Service):
     def delete(self, *args):
@@ -2405,7 +2403,7 @@ class my_service(Service):
         access_token (str): A string containing the current access token for the user&#39;s session
 
     Returns:
-        success (boolean): A boolean indicating whether the operation was succesful.
+        success: A boolean indicating whether the operation was succesful.
 
     Usage:
     ```
@@ -2505,7 +2503,8 @@ class my_service(Service):
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt>success (boolean): A boolean indicating whether the operation was succesful.</dt>
+<dt><code>success</code></dt>
+<dd>A boolean indicating whether the operation was succesful.</dd>
 <dt><code>response</code></dt>
 <dd>Either an error message when the operation fails or a dictionary with the following keys:
 access_token (str): The access token to use to authenticate the user.
@@ -2534,7 +2533,7 @@ class my_service(Service):
         renewal_token (str): A string containing the renewal token received when creating or renewing the session.
 
     Returns:
-        success (boolean): A boolean indicating whether the operation was succesful.
+        success: A boolean indicating whether the operation was succesful.
         response: Either an error message when the operation fails or a dictionary with the following keys:
             access_token (str): The access token to use to authenticate the user.
             renewal_token (str): The renewal token when renewing the user&#39;s session. 
@@ -2650,14 +2649,10 @@ class my_service(Service):
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt>if response is True:</dt>
-<dt>Variable response depending on message processing.</dt>
-<dt>else:</dt>
-<dt><code>
-msgid</code></dt>
-<dd>Message ID of the newly sent message.</dd>
+<dt><code>response</code></dt>
+<dd>If response is True, will return result of message processing, otherwise will return message ID of the newly sent message.</dd>
 </dl>
-<p>The method accepts a new message with any additional metadata. If a "data" of "fpath" is provided, associated metadata is also generated. A message ID is automatically assigned to the message and returned from the method.</p>
+<p>The method accepts a new message with any additional metadata. If a "data" of "fpath" is provided, associated metadata is also generated. In order to get a result from the topic-based message processing of the new message, the response parameter can be passed as True.</p>
 <p>Usage:</p>
 <pre><code>from amps import Service
 class my_service(Service):
@@ -2683,12 +2678,9 @@ class my_service(Service):
         timeout (int): When response is True, this indicates how long to wait for a response from message processing. 
 
     Returns:
-        if response is True:
-            Variable response depending on message processing.
-        else:
-            msgid: Message ID of the newly sent message.
+        response: If response is True, will return result of message processing, otherwise will return message ID of the newly sent message.
 
-    The method accepts a new message with any additional metadata. If a &#34;data&#34; of &#34;fpath&#34; is provided, associated metadata is also generated. A message ID is automatically assigned to the message and returned from the method.
+    The method accepts a new message with any additional metadata. If a &#34;data&#34; of &#34;fpath&#34; is provided, associated metadata is also generated. In order to get a result from the topic-based message processing of the new message, the response parameter can be passed as True.
 
     Usage:
     ```
