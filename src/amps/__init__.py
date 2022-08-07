@@ -573,12 +573,9 @@ class Service:
             timeout (int): When response is True, this indicates how long to wait for a response from message processing. 
 
         Returns:
-            if response is True:
-                Variable response depending on message processing.
-            else:
-                msgid: Message ID of the newly sent message.
+            response: If response is True, will return result of message processing, otherwise will return message ID of the newly sent message.
 
-        The method accepts a new message with any additional metadata. If a "data" of "fpath" is provided, associated metadata is also generated. A message ID is automatically assigned to the message and returned from the method.
+        The method accepts a new message with any additional metadata. If a "data" of "fpath" is provided, associated metadata is also generated. In order to get a result from the topic-based message processing of the new message, the response parameter can be passed as True.
 
         Usage:
         ```
@@ -610,7 +607,7 @@ class Service:
             user (dict): A dictionary with a username and password key to use for authentication.
 
         Returns:
-            success (boolean): A boolean indicating whether the operation was succesful.
+            success: A boolean indicating whether the operation was succesful.
             response: Either an error message when the operation fails or a dictionary with the following keys:
                 access_token (str): The access token to use to authenticate the user.
                 renewal_token (str): The renewal token when renewing the user's session. 
@@ -639,7 +636,7 @@ class Service:
             renewal_token (str): A string containing the renewal token received when creating or renewing the session.
 
         Returns:
-            success (boolean): A boolean indicating whether the operation was succesful.
+            success: A boolean indicating whether the operation was succesful.
             response: Either an error message when the operation fails or a dictionary with the following keys:
                 access_token (str): The access token to use to authenticate the user.
                 renewal_token (str): The renewal token when renewing the user's session. 
@@ -695,7 +692,7 @@ class Service:
             access_token (str): A string containing the current access token for the user's session
 
         Returns:
-            success (boolean): A boolean indicating whether the operation was succesful.
+            success: A boolean indicating whether the operation was succesful.
 
         Usage:
         ```
