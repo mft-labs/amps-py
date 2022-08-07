@@ -54,7 +54,7 @@ class Logger:
             self.__service__.__log__(Atom(
                 bytes(level, "utf-8")), message)
         else:
-            call(Atom(b'Elixir.Amps.PyProcess'), Atom(b'log'), [Atom(
+            call(Atom(b'Elixir.Amps.PyHandler'), Atom(b'log'), [Atom(
                 bytes(level, "utf-8")), message, [(Atom(b'sid'), self.__sid__)]])
 
     def info(self, message: str):
