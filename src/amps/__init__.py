@@ -127,15 +127,15 @@ class Logger:
 
 
 class Action:
-    """The `Action` class from AMPS provides a base class for actions that must be extended in a custom action. Actions can be performed by overriding the `Action.action` callback exposed by the class. 
+    """The `Action` class from AMPS provides a base class for actions that must be extended in a custom action. Actions can be performed by overriding the `Action.action` callback exposed by the class.
 
     Attributes:
-        msg (dict): The msg attribute contains a python of the dictionary and the message with all of its metadata. Message data can be accessed from the msg attribute, either using the "data" key for inline data, or the "fpath" key for a path to the file containing the data. 
-        parms (dict): The parms attribute contains all the parameters of the configured action including any extra parameters you may have specified under the "parms" key. 
-        sysparms (dict): The sysparms attribute contains all useful system configuration parameters for use in actions. Currently, sysparms only contains the AMPS temporary directory under the "tempdir" key. 
+        msg (dict): The msg attribute contains a python of the dictionary and the message with all of its metadata. Message data can be accessed from the msg attribute, either using the "data" key for inline data, or the "fpath" key for a path to the file containing the data.
+        parms (dict): The parms attribute contains all the parameters of the configured action including any extra parameters you may have specified under the "parms" key.
+        sysparms (dict): The sysparms attribute contains all useful system configuration parameters for use in actions. Currently, sysparms only contains the AMPS temporary directory under the "tempdir" key.
         extra (dict): The extra attribute contains all extra parameters configured in the action.
-        provider (dict): If use_provider is true on the configured action, the provider attribute contains the provider parameters. The provider parameters are available under the parms  object as well under the "provider" key. 
-        logger (Logger): The logger attribute exposes a Logger object for logging events back to AMPS. Any messages logged using this object during the action execution will appear in the corresponding session logs. 
+        provider (dict): If use_provider is true on the configured action, the provider attribute contains the provider parameters. The provider parameters are available under the parms  object as well under the "provider" key.
+        logger (Logger): The logger attribute exposes a Logger object for logging events back to AMPS. Any messages logged using this object during the action execution will appear in the corresponding session logs.
 
     Usage:
     ```
@@ -275,7 +275,7 @@ class Action:
             fpath (string): A filepath to a file containing the message data.
             meta (dict): An optional dictionary containing additional metadata to add to the new message.
 
-        This convenience method allows for the creation of a new message using the file specified in `fpath` and any additional metadata supplied in `meta`. File Size (fsize) and File Name (fname) are automatically retrieved from the given file. 
+        This convenience method allows for the creation of a new message using the file specified in `fpath` and any additional metadata supplied in `meta`. File Size (fsize) and File Name (fname) are automatically retrieved from the given file.
 
         Usage:
         ```
@@ -345,18 +345,18 @@ class Action:
 
 
 class Endpoint(Action):
-    """The `Endpoint` class from AMPS extends the `Action` class to provide additional convenience in setting up API endpoint actions. Like regular actions, endpoint actions can be performed by overriding the `Action.action` callback exposed by the class. 
+    """The `Endpoint` class from AMPS extends the `Action` class to provide additional convenience in setting up API endpoint actions. Like regular actions, endpoint actions can be performed by overriding the `Action.action` callback exposed by the class.
 
     Attributes:
-        msg (dict): The msg attribute contains a python of the dictionary and the message with all of its metadata. Message data can be accessed from the msg attribute, either using the "data" key for inline data, or the "fpath" key for a path to the file containing the data. 
-        parms (dict): The parms attribute contains all the parameters of the configured action including any extra parameters you may have specified under the "parms" key. 
-        sysparms (dict): The sysparms attribute contains all useful system configuration parameters for use in actions. Currently, sysparms only contains the AMPS temporary directory under the "tempdir" key. 
-        provider (dict): If use_provider is true on the configured action, the provider attribute contains the provider parameters. The provider parameters are available under the parms  object as well under the "provider" key. 
-        logger (Logger): The logger attribute exposes a Logger object for logging events back to AMPS. Any messages logged using this object during the action execution will appear in the corresponding session logs. 
+        msg (dict): The msg attribute contains a python of the dictionary and the message with all of its metadata. Message data can be accessed from the msg attribute, either using the "data" key for inline data, or the "fpath" key for a path to the file containing the data.
+        parms (dict): The parms attribute contains all the parameters of the configured action including any extra parameters you may have specified under the "parms" key.
+        sysparms (dict): The sysparms attribute contains all useful system configuration parameters for use in actions. Currently, sysparms only contains the AMPS temporary directory under the "tempdir" key.
+        provider (dict): If use_provider is true on the configured action, the provider attribute contains the provider parameters. The provider parameters are available under the parms  object as well under the "provider" key.
+        logger (Logger): The logger attribute exposes a Logger object for logging events back to AMPS. Any messages logged using this object during the action execution will appear in the corresponding session logs.
         path_params (dict): The path_params attribute contains any parameters that were passed to the endpoint via the URL. It is also available on the `msg` attribute via the "path_params" key.
         query_params (dict): The query_params attribute contains any parameters that were passed to the endpoint via the query parameters. It is also available on the `msg` attribute via the "query_params" key.
 
-    Unlike actions, which are typically performed asynchronous via topic workflows, because Endpoints are called synchronously, if the endpoint action executes successfully, but produces an erroneous state, the action should return a successful status with the appropriate error code and response body under the "response" key.  
+    Unlike actions, which are typically performed asynchronous via topic workflows, because Endpoints are called synchronously, if the endpoint action executes successfully, but produces an erroneous state, the action should return a successful status with the appropriate error code and response body under the "response" key.
 
     Usage:
     ```
@@ -405,7 +405,7 @@ class Endpoint(Action):
             fpath (string): The path to file to send in the response body.
             code (integer): An integer containing the response status code to set.
 
-        This convenience method allows for the convenient sending of a file in the response of a request along with the specified status code. 
+        This convenience method allows for the convenient sending of a file in the response of a request along with the specified status code.
 
         Usage:
         ```
@@ -422,20 +422,23 @@ class Endpoint(Action):
         return {"status": "completed", "response": {"fpath": fpath, "code": code}}
 
 
+responses = {}
+
+
 class Service:
     """The `Service` class from AMPS provides a base class for custom python services that can be managed by AMPS, and act as both consumers of messages and producers of new messages.
 
     Attributes:
         parms (dict): The parms attribute contains all the parameters of the configured service.
-        sysparms (dict): The sysparms attribute contains all useful system configuration parameters for use in services. Currently, sysparms only contains the AMPS temporary directory under the "tempdir" key. 
-        config (dict): The config attribute contains all the custom configuration provided when creating the service. All config is also available in the parms attribute under the "config" key. 
-        logger (Logger): The logger attribute exposes a Logger object for logging events back to AMPS. Any messages logged using this object during the message handling or creation will appear in the corresponding session logs. 
+        sysparms (dict): The sysparms attribute contains all useful system configuration parameters for use in services. Currently, sysparms only contains the AMPS temporary directory under the "tempdir" key.
+        config (dict): The config attribute contains all the custom configuration provided when creating the service. All config is also available in the parms attribute under the "config" key.
+        logger (Logger): The logger attribute exposes a Logger object for logging events back to AMPS. Any messages logged using this object during the message handling or creation will appear in the corresponding session logs.
         env (string): The name of the AMPS environment in which this service is running.
 
-    The `Service` class provides even more flexibility than the `Action` class in extending the functionality of AMPS. Unlike actions which are run and stopped, services can manage processes such as consumers/subscribers, web servers and sockets, etc, allowing the service to consume messages from and produce messages to AMPS. 
+    The `Service` class provides even more flexibility than the `Action` class in extending the functionality of AMPS. Unlike actions which are run and stopped, services can manage processes such as consumers/subscribers, web servers and sockets, etc, allowing the service to consume messages from and produce messages to AMPS.
 
     The class exposes two callback methods, `Service.initialize` and `Service.handle_message`.
-    - `initialize` can be used to perform any initialization actions and start any subprocesses. Note that any subprocesses should be started in a separate thread in order to not block the main thread. 
+    - `initialize` can be used to perform any initialization actions and start any subprocesses. Note that any subprocesses should be started in a separate thread in order to not block the main thread.
     - `handle_message` can be used to receive messages from the topic specified in the service configuration.
 
     The class additionally contains two methods for creating messages, `Service.send_message` and `Service.send_new`.
@@ -453,20 +456,20 @@ class Service:
         def handle_message(self, msg, logger):
             # Maybe deliver this message to my subprocess or use it to process/transform the message.
             # Send a new message stemming from this message.
-            self.send_message(msg, {"data": "New Message Data Here", "my_custom": "metadata"})
+            self.send_message(
+                msg, {"data": "New Message Data Here", "my_custom": "metadata"})
 
 
     ```
     """
 
-    def __init__(self, parms, sysparms, pid, env, handler, lhandler):
+    def __init__(self, parms, sysparms, pid, env, lhandler):
         self.parms = json.loads(parms)
         self.sysparms = json.loads(sysparms)
         self.config = self.parms["config"]
         self.env = env
         self.logger = Logger(service=self)
         self.__pid__ = pid
-        self.__handler__ = handler
         self.__lhandler__ = lhandler
         self.initialize()
 
@@ -482,8 +485,27 @@ class Service:
         except Exception as e:
             return (Atom(b'error'), str(e))
 
+    def __response__(self, resp, id):
+        global responses
+        responses[id.encode("ascii")] = resp
+        # f = open(id, "w").write(resp)
+
+    def __await_response__(self, id):
+        global responses
+        resp = responses.get(id)
+        while not resp:
+            resp = responses.get(id)
+        return responses.pop(id)
+
     def __send__(self, msg):
         cast(self.__pid__, msg)
+
+    def __send_and_receive__(self, msg):
+        id = Util.get_id().encode("ascii")
+        global responses
+        cast(self.__pid__, (msg, id))
+        resp = self.__await_response__(id)
+        return json.loads(resp)
 
     def __log__(self, level, msg):
         cast(self.__lhandler__, (Atom(b'log'), (level, msg)))
@@ -537,17 +559,24 @@ class Service:
         elif "fpath" in newmsg:
             del msg["data"]
             newmsg["fsize"] = os.path.getsize(newmsg["fpath"])
-        call(Atom(b'Elixir.Amps.PyProcess'), Atom(b'send_message'),
+        call(Atom(b'Elixir.Amps.PyHandler'), Atom(b'send_message'),
              [json.dumps({**msg, **newmsg}), json.dumps(self.parms), self.env])
         return msgid
 
-    def send_new(self, newmsg: dict):
+    def send_new(self, newmsg: dict, action: str, response=False, timeout=15000):
         """Instance method for sending new messages generated from an external source. 
 
         Args:
             newmsg (dict): A dictionary containing the new outgoing message to send. 
+            action (str): The output map action to use when sending this message.
+            response (boolean): Whether to wait for and receive all the outputs or results of the processing of new message.
+            timeout (int): When response is True, this indicates how long to wait for a response from message processing. 
+
         Returns:
-            msgid: Message ID of the newly sent message.
+            if response is True:
+                Variable response depending on message processing.
+            else:
+                msgid: Message ID of the newly sent message.
 
         The method accepts a new message with any additional metadata. If a "data" of "fpath" is provided, associated metadata is also generated. A message ID is automatically assigned to the message and returned from the method.
 
@@ -570,11 +599,117 @@ class Service:
             newmsg["fsize"] = len(newmsg["data"])
         else:
             newmsg["fsize"] = os.path.getsize(newmsg["fpath"])
-        print(newmsg)
-        print(call)
-        cast(self.__handler__,
-             (Atom(b'new'), json.dumps(newmsg)))
-        return msgid
+        resp = self.__send_and_receive__((Atom(
+            b'new'), json.dumps(newmsg), action, response, timeout))
+        return resp
+
+    def create_session(self, user={}):
+        """Instance method for authenticating and creating a session for an AMPS user.  
+
+        Args:
+            user (dict): A dictionary with a username and password key to use for authentication.
+
+        Returns:
+            success (boolean): A boolean indicating whether the operation was succesful.
+            response: Either an error message when the operation fails or a dictionary with the following keys:
+                access_token (str): The access token to use to authenticate the user.
+                renewal_token (str): The renewal token when renewing the user's session. 
+                user (dict): A dictionary containing all the user details. 
+        Usage:
+        ```
+        from amps import Service
+        class my_service(Service):
+            def my_custom_login(self, user):
+                response = self.create_session(user)
+                if response["success"]:
+                    # Handle Success
+                else:
+                    # Handle Failure
+
+        ```
+        """
+        resp = self.__send_and_receive__((Atom(
+            b'authenticate'), json.dumps(user)))
+        return resp
+
+    def renew_session(self, renewal_token: str):
+        """Instance method for renewing an AMPS user's session.
+
+        Args:
+            renewal_token (str): A string containing the renewal token received when creating or renewing the session.
+
+        Returns:
+            success (boolean): A boolean indicating whether the operation was succesful.
+            response: Either an error message when the operation fails or a dictionary with the following keys:
+                access_token (str): The access token to use to authenticate the user.
+                renewal_token (str): The renewal token when renewing the user's session. 
+                user (dict): A dictionary containing all the user details. 
+        Usage:
+        ```
+        from amps import Service
+        class my_service(Service):
+            def my_renewal(self, renewal_token):
+                response = self.renew_session(renewal_token)
+                if response["success"]:
+                    # Handle Success
+                else:
+                    # Handle Failure
+
+        ```
+        """
+        resp = self.__send_and_receive__((Atom(
+            b'renew'), renewal_token))
+        return resp
+
+    def verify(self, access_token: str):
+        """Instance method for verifying an AMPS user's session. 
+
+        Args:
+            access_token (str): A string containing the current access token for the user's session
+
+        Returns:
+            user: Either a dictionary with the user data on successful verification or False for failed verification. 
+        Usage:
+        ```
+        from amps import Service
+        class my_service(Service):
+            def post(self, *args):
+                access_token = self.request.headers.get('Authorization')
+                verified = self.verify(access_token)
+                if verified:
+                    # Perform Logic Here
+                else:
+                    # Send Error
+                    self.send_error(401)
+
+        ```
+        """
+        resp = self.__send_and_receive__((Atom(
+            b'fetch'), access_token))
+        return resp
+
+    def delete_session(self, access_token: str):
+        """Instance method for deleting an AMPS user's session. 
+
+        Args:
+            access_token (str): A string containing the current access token for the user's session
+
+        Returns:
+            success (boolean): A boolean indicating whether the operation was succesful.
+
+        Usage:
+        ```
+        from amps import Service
+        class my_service(Service):
+            def delete(self, *args):
+                access_token = self.request.headers.get('Authorization')
+                resp = self.delete_session(access_token)
+
+        ```
+        """
+        resp = self.__send_and_receive__((Atom(
+            b'delete'), access_token))
+        return resp
 
     def handle_message(self, msg: dict, logger: Logger):
         """Callback method for receiving messages on the configured topic. 
