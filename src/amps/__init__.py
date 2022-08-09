@@ -587,7 +587,7 @@ class Service:
 
             def my_custom_function(self):
                 # Any additional method in which are you generating a new message using an external source.
-                self.send_new({"data": "New Message Data Here", "my_custom": "metadata"})
+                self.send_new({"data": "New Message Data Here", "my_custom": "metadata"}, "myaction_name")
         ```
         """
         msgid = Util.get_id()
