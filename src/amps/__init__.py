@@ -1,5 +1,5 @@
 from erlport.erlang import cast, call
-from erlport.erlterms import Atom
+from erlport.erlterms import Atom, Map, List
 import traceback
 import os
 import json
@@ -15,6 +15,19 @@ class Util:
         """Utility method that returns a unique ID in the format used by AMPS.
         """
         return uuid.UUID(str(uuid.uuid4())).hex
+
+    @staticmethod
+    def unravel_erlport_object(result):
+        if isinstance(result, List):
+            return [Util.unravel_erlport_object(x) for x in result]
+        elif isinstance(result, Map):
+            return {k.decode(): Util.unravel_erlport_object(v) for k, v in result.items()}
+        elif isinstance(result, Atom):
+            return result.decode()
+        elif isinstance(result, bytes):
+            return result.decode()
+        else:
+            return result
 
 
 class Logger:
@@ -160,6 +173,7 @@ class Action:
         self.parms = msgdata["parms"]
         self.sysparms = msgdata["sysparms"]
         self.extra = self.parms["parms"]
+        self.env = self.parms["env"]
         if self.parms["use_provider"]:
             self.provider = self.parms["provider"]
         if self.msg.get("sid"):
@@ -215,6 +229,24 @@ class Action:
             return self.msg["data"]
         else:
             return open(self.msg["fpath"]).read()
+
+    def find(self, collection, clauses):
+        coll = bytes(collection, "utf-8")
+        collection = call(Atom(b'Elixir.AmpsUtil'), Atom(
+            b'index'), [bytes(self.env, "utf-8"), coll])
+        clauses = Map(clauses)
+        result = call(Atom(b'Elixir.Amps.PyService'),
+                      Atom(b'find'), [collection, clauses])
+        return Util.unravel_erlport_object(result)
+
+    def find_one(self, collection, clauses):
+        coll = bytes(collection, "utf-8")
+        collection = call(Atom(b'Elixir.AmpsUtil'), Atom(
+            b'index'), [bytes(self.env, "utf-8"), coll])
+        clauses = Map(clauses)
+        result = call(Atom(b'Elixir.Amps.PyService'),
+                      Atom(b'find_one'), [collection, clauses])
+        return Util.unravel_erlport_object(result)
 
     @staticmethod
     def send_async(status, key, data):
