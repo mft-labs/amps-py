@@ -139,6 +139,57 @@ class Logger:
         self.log("error", message)
 
 
+class DB:
+    def __init__(self, env):
+        self.env = env
+
+    def find(self, collection, clauses):
+        coll = bytes(collection, "utf-8")
+        collection = call(Atom(b'Elixir.AmpsUtil'), Atom(
+            b'index'), [bytes(self.env, "utf-8"), coll])
+        clauses = Map(clauses)
+        result = call(Atom(b'Elixir.Amps.PyService'),
+                      Atom(b'find'), [collection, clauses])
+        return Util.unravel_erlport_object(result)
+
+    def find_one(self, collection, clauses):
+        coll = bytes(collection, "utf-8")
+        collection = call(Atom(b'Elixir.AmpsUtil'), Atom(
+            b'index'), [bytes(self.env, "utf-8"), coll])
+        clauses = Map(clauses)
+        result = call(Atom(b'Elixir.Amps.PyService'),
+                      Atom(b'find_one'), [collection, clauses])
+        return Util.unravel_erlport_object(result)
+
+    def create(self, collection, body):
+        coll = bytes(collection, "utf-8")
+        collection = call(Atom(b'Elixir.AmpsUtil'), Atom(
+            b'index'), [bytes(self.env, "utf-8"), coll])
+        body = Map(body)
+        result = call(Atom(b'Elixir.Amps.PyService'),
+                      Atom(b'create'), [collection, body])
+        return Util.unravel_erlport_object(result)
+
+    def update(self, collection, body, id):
+        coll = bytes(collection, "utf-8")
+        id = bytes(id, "utf-8")
+        collection = call(Atom(b'Elixir.AmpsUtil'), Atom(
+            b'index'), [bytes(self.env, "utf-8"), coll])
+        body = Map(body)
+        result = call(Atom(b'Elixir.Amps.PyService'),
+                      Atom(b'update'), [collection, body, id])
+        return Util.unravel_erlport_object(result)
+
+    def delete(self, collection, id):
+        coll = bytes(collection, "utf-8")
+        id = bytes(id, "utf-8")
+        collection = call(Atom(b'Elixir.AmpsUtil'), Atom(
+            b'index'), [bytes(self.env, "utf-8"), coll])
+        result = call(Atom(b'Elixir.Amps.PyService'),
+                      Atom(b'delete'), [collection, id])
+        return Util.unravel_erlport_object(result)
+
+
 class Action:
     """The `Action` class from AMPS provides a base class for actions that must be extended in a custom action. Actions can be performed by overriding the `Action.action` callback exposed by the class.
 
@@ -174,6 +225,7 @@ class Action:
         self.sysparms = msgdata["sysparms"]
         self.extra = self.parms["parms"]
         self.env = self.parms["env"]
+        self.db = DB(self.env)
         if self.parms["use_provider"]:
             self.provider = self.parms["provider"]
         if self.msg.get("sid"):
@@ -229,24 +281,6 @@ class Action:
             return self.msg["data"]
         else:
             return open(self.msg["fpath"]).read()
-
-    def find(self, collection, clauses):
-        coll = bytes(collection, "utf-8")
-        collection = call(Atom(b'Elixir.AmpsUtil'), Atom(
-            b'index'), [bytes(self.env, "utf-8"), coll])
-        clauses = Map(clauses)
-        result = call(Atom(b'Elixir.Amps.PyService'),
-                      Atom(b'find'), [collection, clauses])
-        return Util.unravel_erlport_object(result)
-
-    def find_one(self, collection, clauses):
-        coll = bytes(collection, "utf-8")
-        collection = call(Atom(b'Elixir.AmpsUtil'), Atom(
-            b'index'), [bytes(self.env, "utf-8"), coll])
-        clauses = Map(clauses)
-        result = call(Atom(b'Elixir.Amps.PyService'),
-                      Atom(b'find_one'), [collection, clauses])
-        return Util.unravel_erlport_object(result)
 
     @staticmethod
     def send_async(status, key, data):
