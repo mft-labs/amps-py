@@ -166,6 +166,57 @@ class Logger:
         self.log(&#34;error&#34;, message)
 
 
+class DB:
+    def __init__(self, env):
+        self.env = env
+
+    def find(self, collection, clauses):
+        coll = bytes(collection, &#34;utf-8&#34;)
+        collection = call(Atom(b&#39;Elixir.AmpsUtil&#39;), Atom(
+            b&#39;index&#39;), [bytes(self.env, &#34;utf-8&#34;), coll])
+        clauses = Map(clauses)
+        result = call(Atom(b&#39;Elixir.Amps.PyService&#39;),
+                      Atom(b&#39;find&#39;), [collection, clauses])
+        return Util.unravel_erlport_object(result)
+
+    def find_one(self, collection, clauses):
+        coll = bytes(collection, &#34;utf-8&#34;)
+        collection = call(Atom(b&#39;Elixir.AmpsUtil&#39;), Atom(
+            b&#39;index&#39;), [bytes(self.env, &#34;utf-8&#34;), coll])
+        clauses = Map(clauses)
+        result = call(Atom(b&#39;Elixir.Amps.PyService&#39;),
+                      Atom(b&#39;find_one&#39;), [collection, clauses])
+        return Util.unravel_erlport_object(result)
+
+    def create(self, collection, body):
+        coll = bytes(collection, &#34;utf-8&#34;)
+        collection = call(Atom(b&#39;Elixir.AmpsUtil&#39;), Atom(
+            b&#39;index&#39;), [bytes(self.env, &#34;utf-8&#34;), coll])
+        body = Map(body)
+        result = call(Atom(b&#39;Elixir.Amps.PyService&#39;),
+                      Atom(b&#39;create&#39;), [collection, body])
+        return Util.unravel_erlport_object(result)
+
+    def update(self, collection, body, id):
+        coll = bytes(collection, &#34;utf-8&#34;)
+        id = bytes(id, &#34;utf-8&#34;)
+        collection = call(Atom(b&#39;Elixir.AmpsUtil&#39;), Atom(
+            b&#39;index&#39;), [bytes(self.env, &#34;utf-8&#34;), coll])
+        body = Map(body)
+        result = call(Atom(b&#39;Elixir.Amps.PyService&#39;),
+                      Atom(b&#39;update&#39;), [collection, body, id])
+        return Util.unravel_erlport_object(result)
+
+    def delete(self, collection, id):
+        coll = bytes(collection, &#34;utf-8&#34;)
+        id = bytes(id, &#34;utf-8&#34;)
+        collection = call(Atom(b&#39;Elixir.AmpsUtil&#39;), Atom(
+            b&#39;index&#39;), [bytes(self.env, &#34;utf-8&#34;), coll])
+        result = call(Atom(b&#39;Elixir.Amps.PyService&#39;),
+                      Atom(b&#39;delete&#39;), [collection, id])
+        return Util.unravel_erlport_object(result)
+
+
 class Action:
     &#34;&#34;&#34;The `Action` class from AMPS provides a base class for actions that must be extended in a custom action. Actions can be performed by overriding the `Action.action` callback exposed by the class.
 
@@ -201,6 +252,7 @@ class Action:
         self.sysparms = msgdata[&#34;sysparms&#34;]
         self.extra = self.parms[&#34;parms&#34;]
         self.env = self.parms[&#34;env&#34;]
+        self.db = DB(self.env)
         if self.parms[&#34;use_provider&#34;]:
             self.provider = self.parms[&#34;provider&#34;]
         if self.msg.get(&#34;sid&#34;):
@@ -256,24 +308,6 @@ class Action:
             return self.msg[&#34;data&#34;]
         else:
             return open(self.msg[&#34;fpath&#34;]).read()
-
-    def find(self, collection, clauses):
-        coll = bytes(collection, &#34;utf-8&#34;)
-        collection = call(Atom(b&#39;Elixir.AmpsUtil&#39;), Atom(
-            b&#39;index&#39;), [bytes(self.env, &#34;utf-8&#34;), coll])
-        clauses = Map(clauses)
-        result = call(Atom(b&#39;Elixir.Amps.PyService&#39;),
-                      Atom(b&#39;find&#39;), [collection, clauses])
-        return Util.unravel_erlport_object(result)
-
-    def find_one(self, collection, clauses):
-        coll = bytes(collection, &#34;utf-8&#34;)
-        collection = call(Atom(b&#39;Elixir.AmpsUtil&#39;), Atom(
-            b&#39;index&#39;), [bytes(self.env, &#34;utf-8&#34;), coll])
-        clauses = Map(clauses)
-        result = call(Atom(b&#39;Elixir.Amps.PyService&#39;),
-                      Atom(b&#39;find_one&#39;), [collection, clauses])
-        return Util.unravel_erlport_object(result)
 
     @staticmethod
     def send_async(status, key, data):
@@ -869,6 +903,7 @@ class my_action(Action):
         self.sysparms = msgdata[&#34;sysparms&#34;]
         self.extra = self.parms[&#34;parms&#34;]
         self.env = self.parms[&#34;env&#34;]
+        self.db = DB(self.env)
         if self.parms[&#34;use_provider&#34;]:
             self.provider = self.parms[&#34;provider&#34;]
         if self.msg.get(&#34;sid&#34;):
@@ -924,24 +959,6 @@ class my_action(Action):
             return self.msg[&#34;data&#34;]
         else:
             return open(self.msg[&#34;fpath&#34;]).read()
-
-    def find(self, collection, clauses):
-        coll = bytes(collection, &#34;utf-8&#34;)
-        collection = call(Atom(b&#39;Elixir.AmpsUtil&#39;), Atom(
-            b&#39;index&#39;), [bytes(self.env, &#34;utf-8&#34;), coll])
-        clauses = Map(clauses)
-        result = call(Atom(b&#39;Elixir.Amps.PyService&#39;),
-                      Atom(b&#39;find&#39;), [collection, clauses])
-        return Util.unravel_erlport_object(result)
-
-    def find_one(self, collection, clauses):
-        coll = bytes(collection, &#34;utf-8&#34;)
-        collection = call(Atom(b&#39;Elixir.AmpsUtil&#39;), Atom(
-            b&#39;index&#39;), [bytes(self.env, &#34;utf-8&#34;), coll])
-        clauses = Map(clauses)
-        result = call(Atom(b&#39;Elixir.Amps.PyService&#39;),
-                      Atom(b&#39;find_one&#39;), [collection, clauses])
-        return Util.unravel_erlport_object(result)
 
     @staticmethod
     def send_async(status, key, data):
@@ -1388,44 +1405,6 @@ class my_action(Action):
     return {&#34;status&#34;: &#34;completed&#34;}</code></pre>
 </details>
 </dd>
-<dt id="amps.Action.find"><code class="name flex">
-<span>def <span class="ident">find</span></span>(<span>self, collection, clauses)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def find(self, collection, clauses):
-    coll = bytes(collection, &#34;utf-8&#34;)
-    collection = call(Atom(b&#39;Elixir.AmpsUtil&#39;), Atom(
-        b&#39;index&#39;), [bytes(self.env, &#34;utf-8&#34;), coll])
-    clauses = Map(clauses)
-    result = call(Atom(b&#39;Elixir.Amps.PyService&#39;),
-                  Atom(b&#39;find&#39;), [collection, clauses])
-    return Util.unravel_erlport_object(result)</code></pre>
-</details>
-</dd>
-<dt id="amps.Action.find_one"><code class="name flex">
-<span>def <span class="ident">find_one</span></span>(<span>self, collection, clauses)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def find_one(self, collection, clauses):
-    coll = bytes(collection, &#34;utf-8&#34;)
-    collection = call(Atom(b&#39;Elixir.AmpsUtil&#39;), Atom(
-        b&#39;index&#39;), [bytes(self.env, &#34;utf-8&#34;), coll])
-    clauses = Map(clauses)
-    result = call(Atom(b&#39;Elixir.Amps.PyService&#39;),
-                  Atom(b&#39;find_one&#39;), [collection, clauses])
-    return Util.unravel_erlport_object(result)</code></pre>
-</details>
-</dd>
 <dt id="amps.Action.get_data"><code class="name flex">
 <span>def <span class="ident">get_data</span></span>(<span>self)</span>
 </code></dt>
@@ -1470,6 +1449,166 @@ class my_action(Action):
         return self.msg[&#34;data&#34;]
     else:
         return open(self.msg[&#34;fpath&#34;]).read()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="amps.DB"><code class="flex name class">
+<span>class <span class="ident">DB</span></span>
+<span>(</span><span>env)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class DB:
+    def __init__(self, env):
+        self.env = env
+
+    def find(self, collection, clauses):
+        coll = bytes(collection, &#34;utf-8&#34;)
+        collection = call(Atom(b&#39;Elixir.AmpsUtil&#39;), Atom(
+            b&#39;index&#39;), [bytes(self.env, &#34;utf-8&#34;), coll])
+        clauses = Map(clauses)
+        result = call(Atom(b&#39;Elixir.Amps.PyService&#39;),
+                      Atom(b&#39;find&#39;), [collection, clauses])
+        return Util.unravel_erlport_object(result)
+
+    def find_one(self, collection, clauses):
+        coll = bytes(collection, &#34;utf-8&#34;)
+        collection = call(Atom(b&#39;Elixir.AmpsUtil&#39;), Atom(
+            b&#39;index&#39;), [bytes(self.env, &#34;utf-8&#34;), coll])
+        clauses = Map(clauses)
+        result = call(Atom(b&#39;Elixir.Amps.PyService&#39;),
+                      Atom(b&#39;find_one&#39;), [collection, clauses])
+        return Util.unravel_erlport_object(result)
+
+    def create(self, collection, body):
+        coll = bytes(collection, &#34;utf-8&#34;)
+        collection = call(Atom(b&#39;Elixir.AmpsUtil&#39;), Atom(
+            b&#39;index&#39;), [bytes(self.env, &#34;utf-8&#34;), coll])
+        body = Map(body)
+        result = call(Atom(b&#39;Elixir.Amps.PyService&#39;),
+                      Atom(b&#39;create&#39;), [collection, body])
+        return Util.unravel_erlport_object(result)
+
+    def update(self, collection, body, id):
+        coll = bytes(collection, &#34;utf-8&#34;)
+        id = bytes(id, &#34;utf-8&#34;)
+        collection = call(Atom(b&#39;Elixir.AmpsUtil&#39;), Atom(
+            b&#39;index&#39;), [bytes(self.env, &#34;utf-8&#34;), coll])
+        body = Map(body)
+        result = call(Atom(b&#39;Elixir.Amps.PyService&#39;),
+                      Atom(b&#39;update&#39;), [collection, body, id])
+        return Util.unravel_erlport_object(result)
+
+    def delete(self, collection, id):
+        coll = bytes(collection, &#34;utf-8&#34;)
+        id = bytes(id, &#34;utf-8&#34;)
+        collection = call(Atom(b&#39;Elixir.AmpsUtil&#39;), Atom(
+            b&#39;index&#39;), [bytes(self.env, &#34;utf-8&#34;), coll])
+        result = call(Atom(b&#39;Elixir.Amps.PyService&#39;),
+                      Atom(b&#39;delete&#39;), [collection, id])
+        return Util.unravel_erlport_object(result)</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="amps.DB.create"><code class="name flex">
+<span>def <span class="ident">create</span></span>(<span>self, collection, body)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create(self, collection, body):
+    coll = bytes(collection, &#34;utf-8&#34;)
+    collection = call(Atom(b&#39;Elixir.AmpsUtil&#39;), Atom(
+        b&#39;index&#39;), [bytes(self.env, &#34;utf-8&#34;), coll])
+    body = Map(body)
+    result = call(Atom(b&#39;Elixir.Amps.PyService&#39;),
+                  Atom(b&#39;create&#39;), [collection, body])
+    return Util.unravel_erlport_object(result)</code></pre>
+</details>
+</dd>
+<dt id="amps.DB.delete"><code class="name flex">
+<span>def <span class="ident">delete</span></span>(<span>self, collection, id)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def delete(self, collection, id):
+    coll = bytes(collection, &#34;utf-8&#34;)
+    id = bytes(id, &#34;utf-8&#34;)
+    collection = call(Atom(b&#39;Elixir.AmpsUtil&#39;), Atom(
+        b&#39;index&#39;), [bytes(self.env, &#34;utf-8&#34;), coll])
+    result = call(Atom(b&#39;Elixir.Amps.PyService&#39;),
+                  Atom(b&#39;delete&#39;), [collection, id])
+    return Util.unravel_erlport_object(result)</code></pre>
+</details>
+</dd>
+<dt id="amps.DB.find"><code class="name flex">
+<span>def <span class="ident">find</span></span>(<span>self, collection, clauses)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def find(self, collection, clauses):
+    coll = bytes(collection, &#34;utf-8&#34;)
+    collection = call(Atom(b&#39;Elixir.AmpsUtil&#39;), Atom(
+        b&#39;index&#39;), [bytes(self.env, &#34;utf-8&#34;), coll])
+    clauses = Map(clauses)
+    result = call(Atom(b&#39;Elixir.Amps.PyService&#39;),
+                  Atom(b&#39;find&#39;), [collection, clauses])
+    return Util.unravel_erlport_object(result)</code></pre>
+</details>
+</dd>
+<dt id="amps.DB.find_one"><code class="name flex">
+<span>def <span class="ident">find_one</span></span>(<span>self, collection, clauses)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def find_one(self, collection, clauses):
+    coll = bytes(collection, &#34;utf-8&#34;)
+    collection = call(Atom(b&#39;Elixir.AmpsUtil&#39;), Atom(
+        b&#39;index&#39;), [bytes(self.env, &#34;utf-8&#34;), coll])
+    clauses = Map(clauses)
+    result = call(Atom(b&#39;Elixir.Amps.PyService&#39;),
+                  Atom(b&#39;find_one&#39;), [collection, clauses])
+    return Util.unravel_erlport_object(result)</code></pre>
+</details>
+</dd>
+<dt id="amps.DB.update"><code class="name flex">
+<span>def <span class="ident">update</span></span>(<span>self, collection, body, id)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update(self, collection, body, id):
+    coll = bytes(collection, &#34;utf-8&#34;)
+    id = bytes(id, &#34;utf-8&#34;)
+    collection = call(Atom(b&#39;Elixir.AmpsUtil&#39;), Atom(
+        b&#39;index&#39;), [bytes(self.env, &#34;utf-8&#34;), coll])
+    body = Map(body)
+    result = call(Atom(b&#39;Elixir.Amps.PyService&#39;),
+                  Atom(b&#39;update&#39;), [collection, body, id])
+    return Util.unravel_erlport_object(result)</code></pre>
 </details>
 </dd>
 </dl>
@@ -2954,14 +3093,22 @@ def unravel_erlport_object(result):
 <h4><code><a title="amps.Action" href="#amps.Action">Action</a></code></h4>
 <ul class="two-column">
 <li><code><a title="amps.Action.action" href="#amps.Action.action">action</a></code></li>
-<li><code><a title="amps.Action.find" href="#amps.Action.find">find</a></code></li>
-<li><code><a title="amps.Action.find_one" href="#amps.Action.find_one">find_one</a></code></li>
 <li><code><a title="amps.Action.get_data" href="#amps.Action.get_data">get_data</a></code></li>
 <li><code><a title="amps.Action.send_async" href="#amps.Action.send_async">send_async</a></code></li>
 <li><code><a title="amps.Action.send_data" href="#amps.Action.send_data">send_data</a></code></li>
 <li><code><a title="amps.Action.send_error" href="#amps.Action.send_error">send_error</a></code></li>
 <li><code><a title="amps.Action.send_file" href="#amps.Action.send_file">send_file</a></code></li>
 <li><code><a title="amps.Action.send_status" href="#amps.Action.send_status">send_status</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="amps.DB" href="#amps.DB">DB</a></code></h4>
+<ul class="">
+<li><code><a title="amps.DB.create" href="#amps.DB.create">create</a></code></li>
+<li><code><a title="amps.DB.delete" href="#amps.DB.delete">delete</a></code></li>
+<li><code><a title="amps.DB.find" href="#amps.DB.find">find</a></code></li>
+<li><code><a title="amps.DB.find_one" href="#amps.DB.find_one">find_one</a></code></li>
+<li><code><a title="amps.DB.update" href="#amps.DB.update">update</a></code></li>
 </ul>
 </li>
 <li>
