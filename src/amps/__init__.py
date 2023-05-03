@@ -153,13 +153,14 @@ class DB:
                       Atom(b'find'), [collection, clauses, opts])
         return Util.unravel_erlport_object(result)
 
-    def find_one(self, collection, clauses):
+    def find_one(self, collection, clauses={}, opts={}):
         coll = bytes(collection, "utf-8")
         collection = call(Atom(b'Elixir.AmpsUtil'), Atom(
             b'index'), [bytes(self.env, "utf-8"), coll])
         clauses = Map(clauses)
+        opts = Map(opts)
         result = call(Atom(b'Elixir.Amps.PyService'),
-                      Atom(b'find_one'), [collection, clauses])
+                      Atom(b'find_one'), [collection, clauses, opts])
         return Util.unravel_erlport_object(result)
 
     def create(self, collection, body):
