@@ -170,13 +170,14 @@ class DB:
     def __init__(self, env):
         self.env = env
 
-    def find(self, collection, clauses):
+    def find(self, collection, clauses={}, opts={}):
         coll = bytes(collection, &#34;utf-8&#34;)
         collection = call(Atom(b&#39;Elixir.AmpsUtil&#39;), Atom(
             b&#39;index&#39;), [bytes(self.env, &#34;utf-8&#34;), coll])
         clauses = Map(clauses)
+        opts = Map(opts)
         result = call(Atom(b&#39;Elixir.Amps.PyService&#39;),
-                      Atom(b&#39;find&#39;), [collection, clauses])
+                      Atom(b&#39;find&#39;), [collection, clauses, opts])
         return Util.unravel_erlport_object(result)
 
     def find_one(self, collection, clauses):
@@ -1467,13 +1468,14 @@ class my_action(Action):
     def __init__(self, env):
         self.env = env
 
-    def find(self, collection, clauses):
+    def find(self, collection, clauses={}, opts={}):
         coll = bytes(collection, &#34;utf-8&#34;)
         collection = call(Atom(b&#39;Elixir.AmpsUtil&#39;), Atom(
             b&#39;index&#39;), [bytes(self.env, &#34;utf-8&#34;), coll])
         clauses = Map(clauses)
+        opts = Map(opts)
         result = call(Atom(b&#39;Elixir.Amps.PyService&#39;),
-                      Atom(b&#39;find&#39;), [collection, clauses])
+                      Atom(b&#39;find&#39;), [collection, clauses, opts])
         return Util.unravel_erlport_object(result)
 
     def find_one(self, collection, clauses):
@@ -1554,7 +1556,7 @@ class my_action(Action):
 </details>
 </dd>
 <dt id="amps.DB.find"><code class="name flex">
-<span>def <span class="ident">find</span></span>(<span>self, collection, clauses)</span>
+<span>def <span class="ident">find</span></span>(<span>self, collection, clauses={}, opts={})</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -1562,13 +1564,14 @@ class my_action(Action):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def find(self, collection, clauses):
+<pre><code class="python">def find(self, collection, clauses={}, opts={}):
     coll = bytes(collection, &#34;utf-8&#34;)
     collection = call(Atom(b&#39;Elixir.AmpsUtil&#39;), Atom(
         b&#39;index&#39;), [bytes(self.env, &#34;utf-8&#34;), coll])
     clauses = Map(clauses)
+    opts = Map(opts)
     result = call(Atom(b&#39;Elixir.Amps.PyService&#39;),
-                  Atom(b&#39;find&#39;), [collection, clauses])
+                  Atom(b&#39;find&#39;), [collection, clauses, opts])
     return Util.unravel_erlport_object(result)</code></pre>
 </details>
 </dd>
