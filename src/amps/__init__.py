@@ -192,6 +192,69 @@ class DB:
         return Util.unravel_erlport_object(result)
 
 
+class Users:
+    def __init__(self, env):
+        self.env = env
+
+    def find(self, env, clauses={}, opts={}):
+        coll = bytes(collection, "utf-8")
+        collection = call(Atom(b'Elixir.AmpsUtil'), Atom(
+            b'index'), [bytes(self.env, "utf-8"), coll])
+        clauses = Map(clauses)
+        opts = Map(opts)
+        result = call(Atom(b'Elixir.Amps.PyService'),
+                      Atom(b'find'), [collection, clauses, opts])
+        return Util.unravel_erlport_object(result)
+
+    def find_one(self, env, clauses={}, opts={}):
+        coll = bytes(collection, "utf-8")
+        collection = call(Atom(b'Elixir.AmpsUtil'), Atom(
+            b'index'), [bytes(self.env, "utf-8"), coll])
+        clauses = Map(clauses)
+        opts = Map(opts)
+        result = call(Atom(b'Elixir.Amps.PyService'),
+                      Atom(b'find_one'), [collection, clauses, opts])
+        return Util.unravel_erlport_object(result)
+
+    def create(self, user):
+        user = Map(user)
+        result = call(Atom(b'Elixir.Amps.PyService.Users'),
+                      Atom(b'create'), [user, self.env])
+        return Util.unravel_erlport_object(result)
+
+    def update(self, id, body):
+        user = Map(body)
+        result = call(Atom(b'Elixir.Amps.PyService.Users'),
+                      Atom(b'update'), [id, user, self.env])
+        return Util.unravel_erlport_object(result)
+
+    def delete(self, id):
+        result = call(Atom(b'Elixir.Amps.PyService.Users'),
+                      Atom(b'delete'), [id, self.env])
+        return Util.unravel_erlport_object(result)
+
+    def create_session(self, user):
+        user = Map(user)
+        result = call(Atom(b'Elixir.Amps.PyService.Users'),
+                      Atom(b'create_session'), [user, self.env])
+        return Util.unravel_erlport_object(result)
+
+    def authenticate(self, access_token):
+        result = call(Atom(b'Elixir.Amps.PyService.Users'),
+                      Atom(b'authenticate'), [access_token, self.env])
+        return Util.unravel_erlport_object(result)
+
+    def renew_session(self, renewal_token):
+        result = call(Atom(b'Elixir.Amps.PyService.Users'),
+                      Atom(b'renew_session'), [renewal_token, self.env])
+        return Util.unravel_erlport_object(result)
+
+    def delete_session(self, access_token):
+        result = call(Atom(b'Elixir.Amps.PyService.Users'),
+                      Atom(b'delete_session'), [access_token, self.env])
+        return Util.unravel_erlport_object(result)
+
+
 class Action:
     """The `Action` class from AMPS provides a base class for actions that must be extended in a custom action. Actions can be performed by overriding the `Action.action` callback exposed by the class.
 
@@ -228,6 +291,8 @@ class Action:
         self.extra = self.parms["parms"]
         self.env = self.parms["env"]
         self.db = DB(self.env)
+        self.users = Users(self.env)
+
         if self.parms["use_provider"]:
             self.provider = self.parms["provider"]
         if self.msg.get("sid"):
