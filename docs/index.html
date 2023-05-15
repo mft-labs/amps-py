@@ -219,6 +219,69 @@ class DB:
         return Util.unravel_erlport_object(result)
 
 
+class Users:
+    def __init__(self, env):
+        self.env = env
+
+    def find(self, env, clauses={}, opts={}):
+        coll = bytes(collection, &#34;utf-8&#34;)
+        collection = call(Atom(b&#39;Elixir.AmpsUtil&#39;), Atom(
+            b&#39;index&#39;), [bytes(self.env, &#34;utf-8&#34;), coll])
+        clauses = Map(clauses)
+        opts = Map(opts)
+        result = call(Atom(b&#39;Elixir.Amps.PyService&#39;),
+                      Atom(b&#39;find&#39;), [collection, clauses, opts])
+        return Util.unravel_erlport_object(result)
+
+    def find_one(self, env, clauses={}, opts={}):
+        coll = bytes(collection, &#34;utf-8&#34;)
+        collection = call(Atom(b&#39;Elixir.AmpsUtil&#39;), Atom(
+            b&#39;index&#39;), [bytes(self.env, &#34;utf-8&#34;), coll])
+        clauses = Map(clauses)
+        opts = Map(opts)
+        result = call(Atom(b&#39;Elixir.Amps.PyService&#39;),
+                      Atom(b&#39;find_one&#39;), [collection, clauses, opts])
+        return Util.unravel_erlport_object(result)
+
+    def create(self, user):
+        user = Map(user)
+        result = call(Atom(b&#39;Elixir.Amps.PyService.Users&#39;),
+                      Atom(b&#39;create&#39;), [user, self.env])
+        return Util.unravel_erlport_object(result)
+
+    def update(self, id, body):
+        user = Map(body)
+        result = call(Atom(b&#39;Elixir.Amps.PyService.Users&#39;),
+                      Atom(b&#39;update&#39;), [id, user, self.env])
+        return Util.unravel_erlport_object(result)
+
+    def delete(self, id):
+        result = call(Atom(b&#39;Elixir.Amps.PyService.Users&#39;),
+                      Atom(b&#39;delete&#39;), [id, self.env])
+        return Util.unravel_erlport_object(result)
+
+    def create_session(self, user):
+        user = Map(user)
+        result = call(Atom(b&#39;Elixir.Amps.PyService.Users&#39;),
+                      Atom(b&#39;create_session&#39;), [user, self.env])
+        return Util.unravel_erlport_object(result)
+
+    def authenticate(self, access_token):
+        result = call(Atom(b&#39;Elixir.Amps.PyService.Users&#39;),
+                      Atom(b&#39;authenticate&#39;), [access_token, self.env])
+        return Util.unravel_erlport_object(result)
+
+    def renew_session(self, renewal_token):
+        result = call(Atom(b&#39;Elixir.Amps.PyService.Users&#39;),
+                      Atom(b&#39;renew_session&#39;), [renewal_token, self.env])
+        return Util.unravel_erlport_object(result)
+
+    def delete_session(self, access_token):
+        result = call(Atom(b&#39;Elixir.Amps.PyService.Users&#39;),
+                      Atom(b&#39;delete_session&#39;), [access_token, self.env])
+        return Util.unravel_erlport_object(result)
+
+
 class Action:
     &#34;&#34;&#34;The `Action` class from AMPS provides a base class for actions that must be extended in a custom action. Actions can be performed by overriding the `Action.action` callback exposed by the class.
 
@@ -255,6 +318,8 @@ class Action:
         self.extra = self.parms[&#34;parms&#34;]
         self.env = self.parms[&#34;env&#34;]
         self.db = DB(self.env)
+        self.users = Users(self.env)
+
         if self.parms[&#34;use_provider&#34;]:
             self.provider = self.parms[&#34;provider&#34;]
         if self.msg.get(&#34;sid&#34;):
@@ -906,6 +971,8 @@ class my_action(Action):
         self.extra = self.parms[&#34;parms&#34;]
         self.env = self.parms[&#34;env&#34;]
         self.db = DB(self.env)
+        self.users = Users(self.env)
+
         if self.parms[&#34;use_provider&#34;]:
             self.provider = self.parms[&#34;provider&#34;]
         if self.msg.get(&#34;sid&#34;):
@@ -3002,6 +3069,230 @@ class my_service(Service):
 </dd>
 </dl>
 </dd>
+<dt id="amps.Users"><code class="flex name class">
+<span>class <span class="ident">Users</span></span>
+<span>(</span><span>env)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Users:
+    def __init__(self, env):
+        self.env = env
+
+    def find(self, env, clauses={}, opts={}):
+        coll = bytes(collection, &#34;utf-8&#34;)
+        collection = call(Atom(b&#39;Elixir.AmpsUtil&#39;), Atom(
+            b&#39;index&#39;), [bytes(self.env, &#34;utf-8&#34;), coll])
+        clauses = Map(clauses)
+        opts = Map(opts)
+        result = call(Atom(b&#39;Elixir.Amps.PyService&#39;),
+                      Atom(b&#39;find&#39;), [collection, clauses, opts])
+        return Util.unravel_erlport_object(result)
+
+    def find_one(self, env, clauses={}, opts={}):
+        coll = bytes(collection, &#34;utf-8&#34;)
+        collection = call(Atom(b&#39;Elixir.AmpsUtil&#39;), Atom(
+            b&#39;index&#39;), [bytes(self.env, &#34;utf-8&#34;), coll])
+        clauses = Map(clauses)
+        opts = Map(opts)
+        result = call(Atom(b&#39;Elixir.Amps.PyService&#39;),
+                      Atom(b&#39;find_one&#39;), [collection, clauses, opts])
+        return Util.unravel_erlport_object(result)
+
+    def create(self, user):
+        user = Map(user)
+        result = call(Atom(b&#39;Elixir.Amps.PyService.Users&#39;),
+                      Atom(b&#39;create&#39;), [user, self.env])
+        return Util.unravel_erlport_object(result)
+
+    def update(self, id, body):
+        user = Map(body)
+        result = call(Atom(b&#39;Elixir.Amps.PyService.Users&#39;),
+                      Atom(b&#39;update&#39;), [id, user, self.env])
+        return Util.unravel_erlport_object(result)
+
+    def delete(self, id):
+        result = call(Atom(b&#39;Elixir.Amps.PyService.Users&#39;),
+                      Atom(b&#39;delete&#39;), [id, self.env])
+        return Util.unravel_erlport_object(result)
+
+    def create_session(self, user):
+        user = Map(user)
+        result = call(Atom(b&#39;Elixir.Amps.PyService.Users&#39;),
+                      Atom(b&#39;create_session&#39;), [user, self.env])
+        return Util.unravel_erlport_object(result)
+
+    def authenticate(self, access_token):
+        result = call(Atom(b&#39;Elixir.Amps.PyService.Users&#39;),
+                      Atom(b&#39;authenticate&#39;), [access_token, self.env])
+        return Util.unravel_erlport_object(result)
+
+    def renew_session(self, renewal_token):
+        result = call(Atom(b&#39;Elixir.Amps.PyService.Users&#39;),
+                      Atom(b&#39;renew_session&#39;), [renewal_token, self.env])
+        return Util.unravel_erlport_object(result)
+
+    def delete_session(self, access_token):
+        result = call(Atom(b&#39;Elixir.Amps.PyService.Users&#39;),
+                      Atom(b&#39;delete_session&#39;), [access_token, self.env])
+        return Util.unravel_erlport_object(result)</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="amps.Users.authenticate"><code class="name flex">
+<span>def <span class="ident">authenticate</span></span>(<span>self, access_token)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def authenticate(self, access_token):
+    result = call(Atom(b&#39;Elixir.Amps.PyService.Users&#39;),
+                  Atom(b&#39;authenticate&#39;), [access_token, self.env])
+    return Util.unravel_erlport_object(result)</code></pre>
+</details>
+</dd>
+<dt id="amps.Users.create"><code class="name flex">
+<span>def <span class="ident">create</span></span>(<span>self, user)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create(self, user):
+    user = Map(user)
+    result = call(Atom(b&#39;Elixir.Amps.PyService.Users&#39;),
+                  Atom(b&#39;create&#39;), [user, self.env])
+    return Util.unravel_erlport_object(result)</code></pre>
+</details>
+</dd>
+<dt id="amps.Users.create_session"><code class="name flex">
+<span>def <span class="ident">create_session</span></span>(<span>self, user)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_session(self, user):
+    user = Map(user)
+    result = call(Atom(b&#39;Elixir.Amps.PyService.Users&#39;),
+                  Atom(b&#39;create_session&#39;), [user, self.env])
+    return Util.unravel_erlport_object(result)</code></pre>
+</details>
+</dd>
+<dt id="amps.Users.delete"><code class="name flex">
+<span>def <span class="ident">delete</span></span>(<span>self, id)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def delete(self, id):
+    result = call(Atom(b&#39;Elixir.Amps.PyService.Users&#39;),
+                  Atom(b&#39;delete&#39;), [id, self.env])
+    return Util.unravel_erlport_object(result)</code></pre>
+</details>
+</dd>
+<dt id="amps.Users.delete_session"><code class="name flex">
+<span>def <span class="ident">delete_session</span></span>(<span>self, access_token)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def delete_session(self, access_token):
+    result = call(Atom(b&#39;Elixir.Amps.PyService.Users&#39;),
+                  Atom(b&#39;delete_session&#39;), [access_token, self.env])
+    return Util.unravel_erlport_object(result)</code></pre>
+</details>
+</dd>
+<dt id="amps.Users.find"><code class="name flex">
+<span>def <span class="ident">find</span></span>(<span>self, env, clauses={}, opts={})</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def find(self, env, clauses={}, opts={}):
+    coll = bytes(collection, &#34;utf-8&#34;)
+    collection = call(Atom(b&#39;Elixir.AmpsUtil&#39;), Atom(
+        b&#39;index&#39;), [bytes(self.env, &#34;utf-8&#34;), coll])
+    clauses = Map(clauses)
+    opts = Map(opts)
+    result = call(Atom(b&#39;Elixir.Amps.PyService&#39;),
+                  Atom(b&#39;find&#39;), [collection, clauses, opts])
+    return Util.unravel_erlport_object(result)</code></pre>
+</details>
+</dd>
+<dt id="amps.Users.find_one"><code class="name flex">
+<span>def <span class="ident">find_one</span></span>(<span>self, env, clauses={}, opts={})</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def find_one(self, env, clauses={}, opts={}):
+    coll = bytes(collection, &#34;utf-8&#34;)
+    collection = call(Atom(b&#39;Elixir.AmpsUtil&#39;), Atom(
+        b&#39;index&#39;), [bytes(self.env, &#34;utf-8&#34;), coll])
+    clauses = Map(clauses)
+    opts = Map(opts)
+    result = call(Atom(b&#39;Elixir.Amps.PyService&#39;),
+                  Atom(b&#39;find_one&#39;), [collection, clauses, opts])
+    return Util.unravel_erlport_object(result)</code></pre>
+</details>
+</dd>
+<dt id="amps.Users.renew_session"><code class="name flex">
+<span>def <span class="ident">renew_session</span></span>(<span>self, renewal_token)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def renew_session(self, renewal_token):
+    result = call(Atom(b&#39;Elixir.Amps.PyService.Users&#39;),
+                  Atom(b&#39;renew_session&#39;), [renewal_token, self.env])
+    return Util.unravel_erlport_object(result)</code></pre>
+</details>
+</dd>
+<dt id="amps.Users.update"><code class="name flex">
+<span>def <span class="ident">update</span></span>(<span>self, id, body)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update(self, id, body):
+    user = Map(body)
+    result = call(Atom(b&#39;Elixir.Amps.PyService.Users&#39;),
+                  Atom(b&#39;update&#39;), [id, user, self.env])
+    return Util.unravel_erlport_object(result)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
 <dt id="amps.Util"><code class="flex name class">
 <span>class <span class="ident">Util</span></span>
 </code></dt>
@@ -3145,6 +3436,20 @@ def unravel_erlport_object(result):
 <li><code><a title="amps.Service.send_message" href="#amps.Service.send_message">send_message</a></code></li>
 <li><code><a title="amps.Service.send_new" href="#amps.Service.send_new">send_new</a></code></li>
 <li><code><a title="amps.Service.verify" href="#amps.Service.verify">verify</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="amps.Users" href="#amps.Users">Users</a></code></h4>
+<ul class="two-column">
+<li><code><a title="amps.Users.authenticate" href="#amps.Users.authenticate">authenticate</a></code></li>
+<li><code><a title="amps.Users.create" href="#amps.Users.create">create</a></code></li>
+<li><code><a title="amps.Users.create_session" href="#amps.Users.create_session">create_session</a></code></li>
+<li><code><a title="amps.Users.delete" href="#amps.Users.delete">delete</a></code></li>
+<li><code><a title="amps.Users.delete_session" href="#amps.Users.delete_session">delete_session</a></code></li>
+<li><code><a title="amps.Users.find" href="#amps.Users.find">find</a></code></li>
+<li><code><a title="amps.Users.find_one" href="#amps.Users.find_one">find_one</a></code></li>
+<li><code><a title="amps.Users.renew_session" href="#amps.Users.renew_session">renew_session</a></code></li>
+<li><code><a title="amps.Users.update" href="#amps.Users.update">update</a></code></li>
 </ul>
 </li>
 <li>
