@@ -452,7 +452,40 @@ class Action:
         fname = os.path.basename(fpath)
         fsize = os.path.getsize(fpath)
         msg = {**{&#34;fname&#34;: fname, &#34;fsize&#34;: fsize, &#34;fpath&#34;: fpath}, **meta}
-        return {&#34;status&#34;: status, &#34;msg&#34;: msg}
+        return {&#34;status&#34;: status, &#34;msgs&#34;: [msg]}
+    
+    def send_files(status: str, files: list):
+        &#34;&#34;&#34;Static method for creating a dictionary with the provided status and new messages from the provided dicts with fpaths and additional metadata for returning in the `Action.action` callback.
+
+        Args:
+            status (string): The Action status to log.
+            files (list): A list of dicts containing an fpath (string) with a path to the file and an optional meta (dict) containing additional metadata.
+
+        This convenience method allows for the creation of new messages using the a list of files with specified `fpath`s and any additional metadata supplied in `meta`. File Size (fsize) and File Name (fname) are automatically retrieved from the given files.
+
+        Usage:
+        ```
+        from amps import Action
+        class my_action(Action):
+            def action(self):
+                # Perform Action Logic Here
+                if success:
+                    return Action.send_file(&#34;completed&#34;, [{&#34;fpath&#34;: path/to/file&#34;, &#34;meta&#34;: {&#34;partner&#34;: &#34;companyX&#34;}}])
+                else:
+                    return Action.send_status(&#34;failed&#34;, &#34;Reason for Failure&#34;)
+        ```
+        &#34;&#34;&#34;
+        msgs = []
+        for file in files:
+            fname = os.path.basename(file[&#34;fpath&#34;])
+            fsize = os.path.getsize(file[&#34;fpath&#34;])
+            if file.get(&#34;meta&#34;):
+                meta = file[&#34;meta&#34;]
+            else:
+                meta = {}
+            msgs.append({**{&#34;fname&#34;: fname, &#34;fsize&#34;: fsize, &#34;fpath&#34;: file[&#34;fpath&#34;]}, **meta})
+        return {&#34;status&#34;: status, &#34;msgs&#34;: msgs}
+
 
     @staticmethod
     def send_data(status: str, data: str, meta: dict = {}):
@@ -478,7 +511,7 @@ class Action:
         ```
         &#34;&#34;&#34;
         msg = {**{&#34;data&#34;: data}, **meta}
-        return {&#34;status&#34;: status, &#34;msg&#34;: msg}
+        return {&#34;status&#34;: status, &#34;msgs&#34;: [msg]}
 
     @staticmethod
     def send_error(reason: str):
@@ -1105,7 +1138,40 @@ class my_action(Action):
         fname = os.path.basename(fpath)
         fsize = os.path.getsize(fpath)
         msg = {**{&#34;fname&#34;: fname, &#34;fsize&#34;: fsize, &#34;fpath&#34;: fpath}, **meta}
-        return {&#34;status&#34;: status, &#34;msg&#34;: msg}
+        return {&#34;status&#34;: status, &#34;msgs&#34;: [msg]}
+    
+    def send_files(status: str, files: list):
+        &#34;&#34;&#34;Static method for creating a dictionary with the provided status and new messages from the provided dicts with fpaths and additional metadata for returning in the `Action.action` callback.
+
+        Args:
+            status (string): The Action status to log.
+            files (list): A list of dicts containing an fpath (string) with a path to the file and an optional meta (dict) containing additional metadata.
+
+        This convenience method allows for the creation of new messages using the a list of files with specified `fpath`s and any additional metadata supplied in `meta`. File Size (fsize) and File Name (fname) are automatically retrieved from the given files.
+
+        Usage:
+        ```
+        from amps import Action
+        class my_action(Action):
+            def action(self):
+                # Perform Action Logic Here
+                if success:
+                    return Action.send_file(&#34;completed&#34;, [{&#34;fpath&#34;: path/to/file&#34;, &#34;meta&#34;: {&#34;partner&#34;: &#34;companyX&#34;}}])
+                else:
+                    return Action.send_status(&#34;failed&#34;, &#34;Reason for Failure&#34;)
+        ```
+        &#34;&#34;&#34;
+        msgs = []
+        for file in files:
+            fname = os.path.basename(file[&#34;fpath&#34;])
+            fsize = os.path.getsize(file[&#34;fpath&#34;])
+            if file.get(&#34;meta&#34;):
+                meta = file[&#34;meta&#34;]
+            else:
+                meta = {}
+            msgs.append({**{&#34;fname&#34;: fname, &#34;fsize&#34;: fsize, &#34;fpath&#34;: file[&#34;fpath&#34;]}, **meta})
+        return {&#34;status&#34;: status, &#34;msgs&#34;: msgs}
+
 
     @staticmethod
     def send_data(status: str, data: str, meta: dict = {}):
@@ -1131,7 +1197,7 @@ class my_action(Action):
         ```
         &#34;&#34;&#34;
         msg = {**{&#34;data&#34;: data}, **meta}
-        return {&#34;status&#34;: status, &#34;msg&#34;: msg}
+        return {&#34;status&#34;: status, &#34;msgs&#34;: [msg]}
 
     @staticmethod
     def send_error(reason: str):
@@ -1269,7 +1335,7 @@ def send_data(status: str, data: str, meta: dict = {}):
     ```
     &#34;&#34;&#34;
     msg = {**{&#34;data&#34;: data}, **meta}
-    return {&#34;status&#34;: status, &#34;msg&#34;: msg}</code></pre>
+    return {&#34;status&#34;: status, &#34;msgs&#34;: [msg]}</code></pre>
 </details>
 </dd>
 <dt id="amps.Action.send_error"><code class="name flex">
@@ -1376,7 +1442,7 @@ def send_file(status: str, fpath: str, meta: dict = {}):
     fname = os.path.basename(fpath)
     fsize = os.path.getsize(fpath)
     msg = {**{&#34;fname&#34;: fname, &#34;fsize&#34;: fsize, &#34;fpath&#34;: fpath}, **meta}
-    return {&#34;status&#34;: status, &#34;msg&#34;: msg}</code></pre>
+    return {&#34;status&#34;: status, &#34;msgs&#34;: [msg]}</code></pre>
 </details>
 </dd>
 <dt id="amps.Action.send_status"><code class="name flex">
@@ -1518,6 +1584,66 @@ class my_action(Action):
         return self.msg[&#34;data&#34;]
     else:
         return open(self.msg[&#34;fpath&#34;]).read()</code></pre>
+</details>
+</dd>
+<dt id="amps.Action.send_files"><code class="name flex">
+<span>def <span class="ident">send_files</span></span>(<span>status: str, files: list)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Static method for creating a dictionary with the provided status and new messages from the provided dicts with fpaths and additional metadata for returning in the <code><a title="amps.Action.action" href="#amps.Action.action">Action.action()</a></code> callback.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>status</code></strong> :&ensp;<code>string</code></dt>
+<dd>The Action status to log.</dd>
+<dt><strong><code>files</code></strong> :&ensp;<code>list</code></dt>
+<dd>A list of dicts containing an fpath (string) with a path to the file and an optional meta (dict) containing additional metadata.</dd>
+</dl>
+<p>This convenience method allows for the creation of new messages using the a list of files with specified <code>fpath</code>s and any additional metadata supplied in <code>meta</code>. File Size (fsize) and File Name (fname) are automatically retrieved from the given files.</p>
+<p>Usage:</p>
+<pre><code>from amps import Action
+class my_action(Action):
+    def action(self):
+        # Perform Action Logic Here
+        if success:
+            return Action.send_file(&quot;completed&quot;, [{&quot;fpath&quot;: path/to/file&quot;, &quot;meta&quot;: {&quot;partner&quot;: &quot;companyX&quot;}}])
+        else:
+            return Action.send_status(&quot;failed&quot;, &quot;Reason for Failure&quot;)
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def send_files(status: str, files: list):
+    &#34;&#34;&#34;Static method for creating a dictionary with the provided status and new messages from the provided dicts with fpaths and additional metadata for returning in the `Action.action` callback.
+
+    Args:
+        status (string): The Action status to log.
+        files (list): A list of dicts containing an fpath (string) with a path to the file and an optional meta (dict) containing additional metadata.
+
+    This convenience method allows for the creation of new messages using the a list of files with specified `fpath`s and any additional metadata supplied in `meta`. File Size (fsize) and File Name (fname) are automatically retrieved from the given files.
+
+    Usage:
+    ```
+    from amps import Action
+    class my_action(Action):
+        def action(self):
+            # Perform Action Logic Here
+            if success:
+                return Action.send_file(&#34;completed&#34;, [{&#34;fpath&#34;: path/to/file&#34;, &#34;meta&#34;: {&#34;partner&#34;: &#34;companyX&#34;}}])
+            else:
+                return Action.send_status(&#34;failed&#34;, &#34;Reason for Failure&#34;)
+    ```
+    &#34;&#34;&#34;
+    msgs = []
+    for file in files:
+        fname = os.path.basename(file[&#34;fpath&#34;])
+        fsize = os.path.getsize(file[&#34;fpath&#34;])
+        if file.get(&#34;meta&#34;):
+            meta = file[&#34;meta&#34;]
+        else:
+            meta = {}
+        msgs.append({**{&#34;fname&#34;: fname, &#34;fsize&#34;: fsize, &#34;fpath&#34;: file[&#34;fpath&#34;]}, **meta})
+    return {&#34;status&#34;: status, &#34;msgs&#34;: msgs}</code></pre>
 </details>
 </dd>
 </dl>
@@ -1920,6 +2046,7 @@ class my_endpoint(Endpoint):
 <li><code><a title="amps.Action.send_data" href="#amps.Action.send_data">send_data</a></code></li>
 <li><code><a title="amps.Action.send_error" href="#amps.Action.send_error">send_error</a></code></li>
 <li><code><a title="amps.Action.send_file" href="#amps.Action.send_file">send_file</a></code></li>
+<li><code><a title="amps.Action.send_files" href="#amps.Action.send_files">send_files</a></code></li>
 <li><code><a title="amps.Action.send_status" href="#amps.Action.send_status">send_status</a></code></li>
 </ul>
 </li>
@@ -3395,6 +3522,7 @@ def unravel_erlport_object(result):
 <li><code><a title="amps.Action.send_data" href="#amps.Action.send_data">send_data</a></code></li>
 <li><code><a title="amps.Action.send_error" href="#amps.Action.send_error">send_error</a></code></li>
 <li><code><a title="amps.Action.send_file" href="#amps.Action.send_file">send_file</a></code></li>
+<li><code><a title="amps.Action.send_files" href="#amps.Action.send_files">send_files</a></code></li>
 <li><code><a title="amps.Action.send_status" href="#amps.Action.send_status">send_status</a></code></li>
 </ul>
 </li>
