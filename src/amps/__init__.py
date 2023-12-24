@@ -425,7 +425,40 @@ class Action:
         fname = os.path.basename(fpath)
         fsize = os.path.getsize(fpath)
         msg = {**{"fname": fname, "fsize": fsize, "fpath": fpath}, **meta}
-        return {"status": status, "msg": msg}
+        return {"status": status, "msgs": [msg]}
+    
+    def send_files(status: str, files: list):
+        """Static method for creating a dictionary with the provided status and new messages from the provided dicts with fpaths and additional metadata for returning in the `Action.action` callback.
+
+        Args:
+            status (string): The Action status to log.
+            files (list): A list of dicts containing an fpath (string) with a path to the file and an optional meta (dict) containing additional metadata.
+
+        This convenience method allows for the creation of new messages using the a list of files with specified `fpath`s and any additional metadata supplied in `meta`. File Size (fsize) and File Name (fname) are automatically retrieved from the given files.
+
+        Usage:
+        ```
+        from amps import Action
+        class my_action(Action):
+            def action(self):
+                # Perform Action Logic Here
+                if success:
+                    return Action.send_file("completed", [{"fpath": path/to/file", "meta": {"partner": "companyX"}}])
+                else:
+                    return Action.send_status("failed", "Reason for Failure")
+        ```
+        """
+        msgs = []
+        for file in files:
+            fname = os.path.basename(file["fpath"])
+            fsize = os.path.getsize(file["fpath"])
+            if file.get("meta"):
+                meta = file["meta"]
+            else:
+                meta = {}
+            msgs.append({**{"fname": fname, "fsize": fsize, "fpath": file["fpath"]}, **meta})
+        return {"status": status, "msgs": msgs}
+
 
     @staticmethod
     def send_data(status: str, data: str, meta: dict = {}):
@@ -451,7 +484,7 @@ class Action:
         ```
         """
         msg = {**{"data": data}, **meta}
-        return {"status": status, "msg": msg}
+        return {"status": status, "msgs": [msg]}
 
     @staticmethod
     def send_error(reason: str):
