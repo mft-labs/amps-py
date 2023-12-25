@@ -304,7 +304,7 @@ class Action:
         try:
             response = self.action()
         except Exception as e:
-            response = {"error": True, "reason": str(e)}
+            response = {"error": True, "reason": traceback.format_exc()}
         return json.dumps(response)
 
     def action(self):
